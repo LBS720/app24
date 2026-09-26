@@ -1,0 +1,1356 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F8F1E4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="24">
+<title>24 | עוצרות. מחכות. מחליטות נכון.</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Secular+One&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F8F1E4; --paper-2:#EFE3CB; --sheet:#FFFBF3; --ink:#1C1D22; --ink-2:#4A4550;
+  --sun:#F4C44E; --sun-pale:#FBE9B7; --rose:#C8375A; --rose-2:#A12A48; --blush:#F6DDD7;
+  --gold:#F2C14E; --gold-2:#B9832A; --sage-pale:#E3ECDD; --green:#2E6B40;
+  --r:18px 22px 17px 24px / 21px 17px 24px 18px;
+  --r2:26px 16px 28px 18px / 18px 28px 16px 26px;
+  --display:'Secular One','Rubik',system-ui,sans-serif;
+  --dash:2px dashed rgba(28,29,34,.22);
+  color-scheme:light;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;overscroll-behavior-y:none}
+body{
+  background-color:var(--paper);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .25 0 0 0 0 .15 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  color:var(--ink);font:17px/1.55 'Rubik',system-ui,sans-serif;min-height:100dvh;overflow-x:hidden}
+body.splash{background-color:var(--sun)}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;padding:0;text-align:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+a{color:inherit}
+p{margin:0 0 10px}
+/* Bottom padding clears the fixed nav (about 67px) and no more, so short pages never scroll. */
+.app{max-width:480px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 14px) 16px calc(env(safe-area-inset-bottom) + 84px)}
+body.no-nav .app{padding-bottom:calc(env(safe-area-inset-bottom) + 14px)}
+.view.in{animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}}
+@keyframes bump{0%,100%{transform:translateY(0)}35%{transform:translateY(-9px)}65%{transform:translateY(2px)}}
+@keyframes wiggle{25%{transform:rotate(-7deg)}75%{transform:rotate(7deg)}}
+@keyframes breathe{50%{transform:scaleY(1.012) translateY(-1px)}}
+@keyframes blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+@keyframes steam{0%{opacity:0;transform:translateY(4px)}40%{opacity:.6}100%{opacity:0;transform:translateY(-8px)}}
+@keyframes hop{0%,100%{transform:translateY(0)}40%{transform:translateY(-10px)}}
+@keyframes twinkle{50%{transform:scale(.6);opacity:.5}}
+@keyframes drop{0%{transform:translateY(-40px);opacity:1}70%{opacity:1}100%{transform:translateY(var(--dy));opacity:0}}
+@keyframes appear{from{opacity:0}to{opacity:1}}
+
+/* ---------- type ---------- */
+.display{font-family:var(--display);font-weight:400}
+h2{font-family:var(--display);font-weight:400;font-size:23px;line-height:1.25;margin:28px 0 12px;padding-bottom:10px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 10'%3E%3Cpath d='M2 6C12 1 20 9 30 5S48 1 58 5 78 8 88 4' fill='none' stroke='%23C8375A' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right bottom / 84px 10px}
+.hint{font-size:16px;color:var(--ink-2)}
+.muted{color:var(--ink-2)}
+.c{text-align:center}
+
+/* ---------- header ---------- */
+.hdr{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin:4px 0 16px}
+.hdr h1{font-family:var(--display);font-weight:400;font-size:30px;line-height:1.15;margin:0}
+.hdr .sub{margin:4px 0 0;font-size:17px;color:var(--ink-2)}
+.me-btn{width:58px;height:58px;flex:none;border-radius:52% 46% 50% 48% / 48% 52% 46% 50%;background:var(--sun);border:2.5px solid var(--ink);overflow:hidden;display:block;position:relative}
+.me-btn svg,.me-btn img{width:100%;height:100%;display:block;object-fit:cover}
+.back{min-height:44px;display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:17px;color:var(--rose-2);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px;margin-bottom:2px}
+.ready-pill{display:flex;align-items:center;justify-content:center;width:100%;min-height:48px;margin:-4px 0 14px;padding:8px 14px;background:var(--rose);color:#fff;font-weight:700;border:2px solid var(--ink);border-radius:var(--r)}
+
+/* ---------- buttons ---------- */
+.btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:56px;padding:12px 20px;font-family:var(--display);font-weight:400;font-size:20px;line-height:1.2;text-align:center;
+  background:var(--rose);color:#fff;border:2.5px solid var(--ink);border-radius:16px 20px 15px 22px / 20px 15px 22px 16px;box-shadow:0 4px 0 var(--ink);transition:transform .08s,box-shadow .08s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.btn.ghost{background:var(--sheet);color:var(--ink)}
+.btn.dark{background:var(--ink);color:var(--paper)}
+.btn.sun{background:var(--sun);color:var(--ink)}
+.btn.sm{min-height:46px;font-size:17px;padding:8px 14px;width:auto}
+.btn-stack{display:grid;gap:14px;margin-top:18px}
+.link{min-height:44px;display:inline-flex;align-items:center;color:var(--rose-2);font-weight:700;text-decoration:underline;text-underline-offset:4px}
+
+/* ---------- surfaces ---------- */
+.sheet{background:var(--sheet);border:2px solid var(--ink);border-radius:var(--r2);padding:18px;margin:12px 0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:44px;padding:8px 15px;border:2px solid var(--ink);border-radius:22px 17px 21px 16px / 17px 22px 16px 21px;background:var(--sheet);font-size:16px;font-weight:500;transition:background .15s}
+.chip.on{background:var(--sun);font-weight:700}
+.chip.hot{background:var(--rose);color:#fff}
+.tabs{display:flex;margin:0 0 16px;border-bottom:2px solid var(--ink)}
+.tabs button{flex:1;min-height:50px;font-size:17px;font-weight:500;color:var(--ink-2);position:relative;text-align:center}
+.tabs button.on{color:var(--ink);font-weight:700}
+.tabs button.on::after{content:'';position:absolute;left:14%;right:14%;bottom:-2px;height:7px;background:var(--rose);border-radius:6px 2px 7px 3px}
+.empty{text-align:center;padding:10px 6px 20px}
+.empty .fig-wrap{width:130px;margin:0 auto 8px}
+.empty p{color:var(--ink-2);margin:0 0 18px}
+
+/* ---------- illustration frames ---------- */
+.fig{display:block;width:100%;height:auto;overflow:visible}
+.fig.bump .who{animation:bump .45s ease}
+.fig .who{transform-origin:100px 300px}
+.pose-wait .who{animation:breathe 4.5s ease-in-out infinite}
+.fig .eyes{transform-origin:100px 64px;animation:blink 5.5s infinite}
+.fig .steam path{animation:steam 2.8s ease-out infinite}
+.fig .steam path+path{animation-delay:1.3s}
+.pose-cheer .who{animation:hop .9s ease-in-out 2}
+.fig .spark path{transform-box:fill-box;transform-origin:center;animation:twinkle 1.6s ease-in-out infinite}
+.fig .spark path:nth-child(2){animation-delay:.5s}
+.fig .spark path:nth-child(3){animation-delay:1s}
+.demon-art{display:block;overflow:visible}
+.bagart{width:56%;height:auto}
+.pol{background:#fff;border:2px solid var(--ink);padding:7px 7px 10px;border-radius:3px;transform:rotate(-2deg)}
+.pol .ph{height:100px;background:var(--sun-pale);display:grid;place-items:center;overflow:hidden;border:1.5px solid var(--ink)}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ---------- splash / onboarding ---------- */
+.splash-v{min-height:calc(100dvh - 28px - env(safe-area-inset-top) - env(safe-area-inset-bottom));box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 4px 16px}
+.cover{position:relative;width:min(66vw,250px);margin-bottom:6px}
+/* The 24 stands above her, like the title on the book cover, so nothing hides it. */
+.cover .big24{position:relative;text-align:center;font-family:var(--display);font-size:min(40vw,150px);line-height:.8;color:var(--ink);letter-spacing:-3px;margin:4px 0 -2px}
+.cover .big24 small{display:block;font-family:var(--display);font-size:.2em;letter-spacing:0;color:var(--rose);margin-top:6px}
+.cover .fig{position:relative}
+.motto{font-family:var(--display);font-weight:400;font-size:32px;line-height:1.2;margin:10px 0 22px}
+.splash-v .btn{max-width:340px}
+.foot{margin-top:16px;font-weight:500;font-size:16px}
+.ils{font-family:'Rubik',sans-serif;font-weight:700;font-size:.82em}
+.onb{padding-top:4px}
+.onb h1{font-family:var(--display);font-weight:400;font-size:30px;line-height:1.2;margin:4px 0 6px}
+.rule p{margin:0 0 8px;font-size:17px}
+.rule cite{display:block;font-style:normal;font-size:16px;color:var(--ink-2)}
+
+/* ---------- form ---------- */
+.lbl{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:400;font-size:20px;line-height:1.3;margin:22px 0 10px}
+.lbl .n{width:34px;height:34px;flex:none;display:grid;place-items:center;background:var(--sun);border:2px solid var(--ink);border-radius:52% 44% 50% 46%;font-size:17px}
+.field{width:100%;min-height:52px;padding:12px 14px;border:2px solid var(--ink);border-radius:12px 15px 12px 16px;background:var(--sheet);outline:none;font-size:17px}
+.field::placeholder{color:#6B6570}
+.field:focus{box-shadow:0 0 0 4px var(--sun)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.shek{position:relative}
+.shek .field{padding-left:34px}
+.shek::after{content:'₪';position:absolute;left:14px;top:50%;transform:translateY(-50%);font-weight:700;color:var(--ink-2)}
+.photo-pick{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;height:150px;width:100%;border:2px dashed var(--ink);border-radius:var(--r2);background:var(--sheet);font-weight:700;color:var(--rose-2);overflow:hidden;position:relative}
+.photo-pick .bagart{width:64px}
+.photo-pick img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.now{display:inline-flex;align-items:center;min-height:36px;font-size:16px;color:var(--ink-2);font-weight:500}
+.steps{display:flex;gap:8px;justify-content:center;margin:0 0 6px}
+.steps i{width:14px;height:14px;border-radius:50% 44% 52% 46%;border:2px solid var(--ink);background:var(--sheet)}
+.steps i.on{background:var(--rose)}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dcard{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 8px 12px;text-align:center;border:2px solid var(--ink);border-radius:var(--r);background:var(--sheet);transition:background .15s}
+.dcard .demon-art{width:74px;height:74px;margin-bottom:2px}
+.dcard b{font-size:16px;line-height:1.3}
+.dcard q{font-size:15px;line-height:1.35;color:var(--ink-2);quotes:'"' '"'}
+.dcard.on{background:var(--sun)}
+.dcard.on .demon-art{animation:wiggle .5s ease}
+.dcard.none{justify-content:center;min-height:120px}
+.dcard.none .qm{font-family:var(--display);font-size:44px;line-height:1;width:64px;height:64px;display:grid;place-items:center;border:2px dashed var(--ink);border-radius:50%;margin-bottom:6px}
+.bubble{position:relative;background:var(--sheet);border:2px solid var(--ink);border-radius:var(--r);padding:12px 14px;margin:14px 0 0;font-size:16px}
+.bubble b{color:var(--rose-2)}
+
+/* ---------- home ---------- */
+.stage{position:relative;background:var(--sun-pale);border:2.5px solid var(--ink);border-radius:var(--r2);padding:16px 12px 14px;margin:6px 0 4px;overflow:hidden}
+.stage .hill{position:absolute;left:0;right:0;bottom:0;width:100%;height:38%}
+.stage > *:not(.hill){position:relative}
+.stage-t{font-family:var(--display);font-size:22px;text-align:center;line-height:1.2}
+.stage-row{display:flex;align-items:flex-end;gap:2px;margin-top:6px}
+.stage-row .fig-wrap{flex:0 0 36%}
+.big-ring{flex:1;position:relative;aspect-ratio:1;max-width:230px;margin:0 auto}
+.big-ring svg{width:100%;height:100%;overflow:visible}
+.big-ring .bar{transition:stroke-dashoffset .9s linear}
+.big-ring .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.digits{direction:ltr;display:flex;align-items:flex-start;font-family:var(--display);font-size:clamp(24px,7.4vw,31px);line-height:1}
+.digits > span{display:flex;flex-direction:column;align-items:center}
+.digits b{font-weight:400;min-width:1.2em;text-align:center}
+.digits small{font-family:'Rubik',sans-serif;font-size:14px;font-weight:500;color:var(--ink-2);margin-top:6px}
+.digits i{font-style:normal;padding:0 1px}
+.ready-t{font-family:var(--display);font-size:21px;line-height:1.2;max-width:8em}
+.cap{text-align:center;margin-top:10px}
+.cap b{font-family:var(--display);font-weight:400;font-size:22px;line-height:1.25}
+.cap .pr{font-weight:700}
+.cap p{margin:2px 0 0;color:var(--ink);font-size:16px}
+.cover-fig{width:min(56vw,210px);margin:4px auto 0}
+.stage-p{text-align:center;margin:8px 0 2px;font-size:17px}
+.queue{display:flex;gap:16px;overflow-x:auto;padding:10px 18px 16px;margin:0 -16px;scrollbar-width:none}
+.queue::-webkit-scrollbar{display:none}
+.queue .pol{flex:none;width:138px;text-align:right}
+.queue .pol:nth-child(even){transform:rotate(1.5deg)}
+.queue .pol.on{background:var(--sun-pale)}
+.queue .pol .ph{height:92px}
+.queue .pol b{display:block;font-size:16px;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.queue .pol small{font-size:15px;color:var(--ink-2);direction:ltr;display:block;text-align:right;font-variant-numeric:tabular-nums}
+.notes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0 8px}
+.note{position:relative;min-height:118px;padding:12px 14px;display:flex;flex-direction:column;justify-content:space-between;gap:6px;border:2px solid var(--ink);border-radius:var(--r);overflow:hidden;text-align:right}
+.note b{font-family:var(--display);font-weight:400;font-size:21px;line-height:1.2}
+.note small{font-size:15px;line-height:1.35;color:var(--ink-2);position:relative}
+.note.n1{background:var(--sun-pale)} .note.n2{background:var(--blush);padding-left:64px}
+.note.n3{background:var(--sheet)} .note.n4{background:var(--sage-pale)}
+.note .money{font-family:var(--display);font-size:26px;line-height:1.1}
+.note .peek{position:absolute;left:-8px;bottom:-12px;width:70px}
+.note .peek .demon-art{width:70px;height:70px}
+
+/* ---------- item + ask + decide ---------- */
+.itemrow{display:flex;gap:16px;align-items:center;margin:10px 0 6px}
+.itemrow .pol{width:128px;flex:none}
+.itemrow .info{flex:1;min-width:0}
+.itemrow .nm{font-weight:700;font-size:19px;line-height:1.3}
+.itemrow .pr{font-family:var(--display);font-size:30px;line-height:1.2}
+.store{font-size:16px;color:var(--ink-2)}
+a.store{color:var(--rose-2);font-weight:700;text-decoration:underline;text-underline-offset:3px;display:inline-block;min-height:32px}
+.ask{display:flex;gap:10px;align-items:center;background:var(--blush);border:2px solid var(--ink);border-radius:var(--r2);padding:14px 14px 0;margin:14px 0 0;overflow:hidden}
+.ask .fig-wrap{width:100px;flex:none;align-self:flex-end;margin-bottom:-6px}
+.ask h3{font-family:var(--display);font-weight:400;font-size:22px;line-height:1.25;margin:0 0 6px}
+.ask p{margin:0 0 16px;color:var(--ink)}
+.decide-top{display:flex;align-items:flex-end;gap:10px}
+.decide-top .itemcol{flex:1;min-width:0}
+.decide-top .fig-wrap{width:118px;flex:none}
+.dtag{display:flex;align-items:center;gap:10px;background:var(--sheet);border:2px solid var(--ink);border-radius:var(--r);padding:8px 12px;margin:12px 0 0}
+.dtag .demon-art{width:52px;height:52px;flex:none}
+.dtag span{font-size:16px;line-height:1.35}
+.checks{border-top:2px solid var(--ink)}
+.check{display:flex;align-items:center;gap:14px;width:100%;min-height:62px;padding:10px 4px;border-bottom:var(--dash);font-size:18px;font-weight:500;text-align:right}
+.box{width:32px;height:32px;flex:none;border:2.5px solid var(--ink);border-radius:6px 9px 7px 10px;background:var(--sheet);display:grid;place-items:center}
+.box svg{width:28px;height:28px;overflow:visible}
+.box path{stroke-dasharray:40;stroke-dashoffset:40;transition:stroke-dashoffset .25s ease}
+.check.on .box path{stroke-dashoffset:0}
+.verdict{text-align:center;font-weight:700;color:var(--rose-2);min-height:26px;margin:14px 0 0;font-size:18px}
+
+/* ---------- list ---------- */
+.page{background:var(--sheet);border:2px solid var(--ink);border-radius:var(--r2);padding:2px 14px}
+.entry{display:flex;align-items:center;gap:12px;padding:14px 0}
+.entry+.entry,.acts+.entry{border-top:var(--dash)}
+.entry .ph{width:62px;height:62px;flex:none;border:2px solid var(--ink);border-radius:10px 12px 9px 13px;background:var(--sun-pale);display:grid;place-items:center;overflow:hidden}
+.entry .info{flex:1;min-width:0}
+.entry .nm{font-weight:700;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.entry .meta{font-size:15px;color:var(--ink-2);line-height:1.4;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.entry .end{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.entry .amt{font-family:var(--display);font-size:19px;white-space:nowrap}
+.st{font-size:14px;font-weight:700;padding:1px 8px;border:2px solid currentColor;border-radius:5px 7px 5px 8px;white-space:nowrap;transform:rotate(-3deg);display:inline-block}
+.st.waiting{color:#7A5A10}
+.st.ready{background:var(--rose);color:#fff;border-color:var(--ink)}
+.st.skipped{color:var(--green)}
+.st.bought{color:var(--rose-2)}
+.st.broke{color:var(--ink-2)}
+.st.logged{color:var(--ink-2);border-style:dashed}
+.acts{display:flex;flex-wrap:wrap;gap:8px;padding:0 0 14px}
+.acts .chip{font-size:15px}
+.del{display:flex;justify-content:flex-end;margin:-10px 0 4px}
+.del button{min-height:44px;font-size:15px;color:var(--ink-2);text-decoration:underline;text-underline-offset:3px}
+.day{font-family:var(--display);font-size:18px;margin:14px 0 0;padding-top:8px;border-top:2px solid var(--ink)}
+.day:first-child{border-top:0}
+
+/* ---------- insights ---------- */
+.bravo{display:flex;align-items:center;gap:8px;background:var(--sun-pale);border:2px solid var(--ink);border-radius:var(--r2);padding:14px 16px}
+.bravo .t{flex:1}
+.bravo h3{margin:0 0 4px;font-family:var(--display);font-weight:400;font-size:24px;line-height:1.2}
+.bravo p{margin:0;font-size:16px}
+.bravo .sum{font-family:var(--display);font-size:38px;line-height:1.1;margin-top:6px}
+.bravo .jar{width:98px;flex:none}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);margin:16px 0;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+.fact{padding:12px 6px;text-align:center}
+.fact+.fact{border-right:var(--dash)}
+.fact b{display:block;font-family:var(--display);font-weight:400;font-size:32px;line-height:1.15}
+.fact small{font-size:15px;color:var(--ink-2);line-height:1.3;display:block}
+.chart{margin:22px 0}
+.chart h3{font-family:var(--display);font-weight:400;font-size:20px;line-height:1.3;margin:0 0 6px}
+.bar-row{display:grid;grid-template-columns:104px 1fr 46px;align-items:center;gap:10px;margin:10px 0;font-size:16px}
+.bar-row .b{height:20px;border:2px solid var(--ink);border-radius:4px 9px 5px 10px;background:var(--sheet);overflow:hidden}
+.bar-row .b i{display:block;height:100%;border-left:2px solid var(--ink)}
+.bar-row .n{font-weight:700;text-align:left;font-size:15px;color:var(--ink-2)}
+.mine{background:var(--ink);color:var(--paper);border-radius:var(--r2);padding:18px;margin:14px 0;display:grid;grid-template-columns:1fr 104px;gap:6px 12px;align-items:center}
+.mine small{color:var(--sun);font-weight:700;font-size:16px}
+.mine .dn{font-family:var(--display);font-size:24px;line-height:1.25;margin:2px 0 8px}
+.mine .says{display:inline-block;background:var(--paper);color:var(--ink);border-radius:16px 16px 16px 4px;padding:6px 12px;font-weight:500;font-size:16px}
+.mine .art{background:var(--sun);border-radius:50% 44% 54% 46%;padding:8px}
+.mine .art .demon-art{width:100%;height:auto}
+.mine .todo{grid-column:1/-1;margin-top:10px;padding-top:12px;border-top:2px dashed rgba(248,241,228,.35);font-size:16.5px}
+.mine .todo b{color:var(--sun)}
+.remember{position:relative;background:var(--sun-pale);border:2px solid var(--ink);border-radius:3px;padding:22px 18px 16px;margin:26px 6px 14px;transform:rotate(-1deg)}
+.remember:nth-of-type(even){transform:rotate(.8deg);background:var(--blush)}
+.remember::before{content:'';position:absolute;top:-13px;left:50%;width:86px;height:24px;background:rgba(200,55,90,.32);transform:translateX(-50%) rotate(3deg)}
+.remember b{font-family:var(--display);font-weight:400;font-size:20px;display:block}
+.remember span{font-size:17px}
+
+/* ---------- challenge ---------- */
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:14px}
+.days i{aspect-ratio:1;border-radius:50%;border:2px dashed rgba(28,29,34,.45);display:grid;place-items:center;font-style:normal;font-weight:700;font-size:15px;color:var(--ink-2)}
+.days i.done{border:2px solid var(--ink);color:var(--ink);background:radial-gradient(circle,var(--gold) 55%,#D69E2E 57%,#D69E2E 63%,var(--gold) 65%)}
+.days i.today{border:3px solid var(--rose);color:var(--ink)}
+.chal-h{font-family:var(--display);font-size:22px;line-height:1.25}
+ol.steps4{margin:10px 0 0;padding-inline-start:22px}
+ol.steps4 li{margin:4px 0}
+details.dm{border-bottom:var(--dash)}
+details.dm:first-of-type{border-top:2px solid var(--ink)}
+details.dm summary{list-style:none;display:flex;align-items:center;gap:12px;min-height:84px;padding:10px 0;cursor:pointer}
+details.dm summary::-webkit-details-marker{display:none}
+details.dm .demon-art{width:66px;height:66px;flex:none}
+details.dm .t{flex:1;min-width:0}
+details.dm .t b{display:block;font-family:var(--display);font-weight:400;font-size:19px;line-height:1.3}
+details.dm .t q{font-size:16px;color:var(--ink-2);quotes:'"' '"'}
+details.dm .cnt{display:block;font-size:15px;font-weight:700;color:var(--rose-2)}
+details.dm .pm{width:32px;height:32px;flex:none;display:grid;place-items:center;border:2px solid var(--ink);border-radius:50%;font-weight:700;font-size:20px;line-height:1;transition:transform .2s}
+details.dm[open] .pm{transform:rotate(45deg)}
+details.dm .body{padding:0 0 16px;font-size:16.5px}
+details.dm .body p{margin:8px 0}
+details.dm .body b{color:var(--rose-2)}
+.tip{display:flex;gap:12px;align-items:flex-start;padding:14px 0;border-bottom:var(--dash)}
+.tip .demon-art{width:58px;height:58px;flex:none}
+.tip b{font-family:var(--display);font-weight:400;font-size:18px;display:block}
+.tip p{margin:4px 0 0}
+
+/* ---------- more / look ---------- */
+.prof{display:flex;align-items:flex-end;gap:14px;background:var(--sun);border:2.5px solid var(--ink);border-radius:var(--r2);padding:14px 16px 0;overflow:hidden}
+.prof-fig{width:118px;flex:none}
+.prof-fig img{display:block;width:104px;height:104px;object-fit:cover;border:2.5px solid var(--ink);border-radius:52% 46% 50% 48%;margin-bottom:14px}
+.prof-t{flex:1;padding-bottom:16px}
+.prof-t b{display:block;font-family:var(--display);font-weight:400;font-size:25px;line-height:1.2;margin-bottom:8px}
+.prof-t .btn{background:var(--sheet);color:var(--ink)}
+.rows{border-top:2px solid var(--ink);margin:18px 0}
+.rows > *{display:flex;align-items:center;gap:12px;width:100%;min-height:58px;padding:8px 2px;border-bottom:var(--dash);text-align:right;font-size:17px}
+.rows .x{flex:1}
+.rows button .x{color:var(--ink);font-weight:500;text-decoration:underline;text-decoration-color:rgba(200,55,90,.6);text-decoration-thickness:2px;text-underline-offset:5px}
+.rows .danger .x{color:var(--rose-2)}
+.rows input.field{width:118px;min-height:46px;padding:8px 12px;text-align:center}
+.rows .shek input.field{padding-left:30px}
+.look-stage{position:sticky;top:0;z-index:3;background:var(--sun);border:2.5px solid var(--ink);border-radius:var(--r2);height:212px;display:flex;justify-content:center;align-items:flex-end;padding-top:8px;overflow:hidden}
+.look-stage .fig{height:196px;width:auto}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 4px}
+.mode{min-height:56px;border:2px solid var(--ink);border-radius:var(--r);background:var(--sheet);font-family:var(--display);font-size:18px;text-align:center}
+.mode.on{background:var(--ink);color:var(--paper)}
+.opt-h{font-family:var(--display);font-size:19px;margin:18px 0 8px}
+.swatches{display:flex;flex-wrap:wrap;gap:10px}
+.sw{width:46px;height:46px;border-radius:52% 46% 50% 48% / 48% 52% 46% 50%;background:var(--c);border:2px solid var(--ink)}
+.sw.on{box-shadow:0 0 0 3px var(--paper),0 0 0 6px var(--ink)}
+.styles{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.sty{aspect-ratio:1;border:2px solid var(--ink);border-radius:var(--r);background:var(--sheet);overflow:hidden}
+.sty.on{background:var(--sun);box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--ink)}
+.sty svg{width:100%;height:100%;display:block}
+.photo-box{text-align:center;padding:10px 0}
+.photo-box .me-photo{width:150px;height:150px;object-fit:cover;border:2.5px solid var(--ink);border-radius:52% 46% 50% 48%;display:block;margin:0 auto 14px}
+.photo-box .hint{margin-top:10px}
+
+/* ---------- nav ---------- */
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:10;background:var(--paper);border-top:2.5px solid var(--ink);padding:6px 6px calc(env(safe-area-inset-bottom) + 6px)}
+.nav-in{max-width:480px;margin:0 auto;display:flex}
+.nav button{flex:1;min-height:52px;display:grid;place-items:center;font-size:16px;font-weight:500;color:var(--ink-2);position:relative;isolation:isolate;text-align:center}
+.nav button.on{color:var(--ink);font-weight:700}
+.nav button.on::before{content:'';position:absolute;inset:8px 4px;background:var(--sun);border:2px solid var(--ink);border-radius:40% 55% 45% 60% / 60% 45% 55% 40%;z-index:-1}
+
+/* ---------- overlays ---------- */
+.toast{position:fixed;left:50%;bottom:104px;transform:translate(-50%,20px);opacity:0;background:var(--ink);color:var(--paper);padding:12px 20px;border-radius:var(--r);font-weight:500;transition:all .3s;z-index:50;pointer-events:none;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.celebrate{position:fixed;inset:0;z-index:40;background:rgba(28,29,34,.6);display:grid;place-items:center;padding:20px;animation:fade .25s}
+.cel{background:var(--paper);border:2.5px solid var(--ink);border-radius:var(--r2);padding:16px 20px 20px;text-align:center;max-width:380px;width:100%}
+.cel-art{display:flex;justify-content:center;align-items:flex-end;height:210px;margin-bottom:6px}
+.cel-art .fig{height:200px;width:auto}
+.cel-art .jar{width:104px;margin-inline-start:-8px}
+.cel h3{font-family:var(--display);font-weight:400;font-size:26px;line-height:1.2;margin:6px 0 6px}
+.cel p{margin:0 0 20px}
+.jar .drop{animation:drop 1.1s .5s cubic-bezier(.55,0,.8,.6) both}
+.jar .late{animation:appear .3s 1.45s both}
+
+
+/* Opening screen: a gold coin that is also a 24 hour clock. */
+.cclock{width:min(84vw,330px);display:block;margin:0 auto 4px;overflow:visible}
+.cclock .sweep{transform-box:view-box;transform-origin:150px 146px;animation:spin 8s linear infinite}
+.cclock .fill{animation:fillring 8s linear infinite}
+.cclock .fall{transform-box:fill-box;transform-origin:center;opacity:0;animation:fall 3.2s cubic-bezier(.5,0,.75,.55) infinite}
+.cclock .fall.b{animation-delay:1.6s}
+.cclock .tumble{transform-box:fill-box;transform-origin:center;animation:tumble 3.2s linear infinite}
+.cclock .fall.b .tumble{animation-delay:1.6s}
+.cclock .tick.on{animation:tickpulse 8s steps(1) infinite}
+.cclock .face{animation:breathe 4s ease-in-out infinite;transform-box:view-box;transform-origin:150px 146px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fillring{from{stroke-dashoffset:var(--c)}to{stroke-dashoffset:0}}
+@keyframes fall{0%{transform:translateY(-250px);opacity:0}8%{opacity:1}52%{transform:translateY(0)}58%{transform:translateY(-10px)}64%{transform:translateY(0)}86%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(0)}}
+@keyframes tumble{0%{transform:rotate(0) scaleY(.35)}52%{transform:rotate(540deg) scaleY(1)}100%{transform:rotate(540deg) scaleY(1)}}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.012)}}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .jar .drop{display:none}
+  .cclock .fall{display:none}
+  .cclock .fill{stroke-dashoffset:0!important}
+}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+<nav class="nav" id="nav" hidden aria-label="ניווט">
+  <div class="nav-in">
+    <button data-go="home">בית</button>
+    <button data-go="list">הרשימה</button>
+    <button data-go="challenge">האתגר</button>
+    <button data-go="insights">תובנות</button>
+    <button data-go="more">עוד</button>
+  </div>
+</nav>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<input type="file" id="photo-in" accept="image/*" hidden>
+<input type="file" id="me-in" accept="image/*" hidden>
+<input type="file" id="imp" accept="application/json,.json" hidden>
+
+<script>
+const KEY = 'app24.v1';
+const DAY = 24 * 60 * 60 * 1000;
+
+/* Content below is taken from Linoy's chapter 6, "סוף עונה!". */
+const DEMONS = [
+  { id: 'comp', name: 'שדון הפיצוי', short: 'פיצוי', says: 'מגיע לי!',
+    sign: 'הקנייה מגיעה מיד אחרי יום קשה, ההקלה נמשכת שעה, ואחריה בא לחץ כשהחיוב נכנס.',
+    todo: 'סעיף קבוע בתקציב בשם "מגיע לי", סכום שאת קובעת מראש ומבזבזת בלי רגשות אשם. גם 300 ₪ בחודש הם 3,600 ₪ בשנה של פינוקים מתוכננים, בלי חור בעו״ש.' },
+  { id: 'temp', name: 'שדון הפיתוי', short: 'פיתוי', says: '50% הנחה על כל החנות!',
+    sign: 'שעון שרץ, מילים כמו "אחרון" ו"רק היום", ומוצר שלא היה ברשימה שלך עד לפני חמש דקות. אם ההנחה היא הסיבה העיקרית לקנות, זה השדון מדבר.',
+    todo: 'לפני כל לחיצה על "לתשלום", שאלי: הייתי קונה את זה גם במחיר מלא? אם לא, את לא חוסכת 50%. את מוציאה 50%.' },
+  { id: 'herd', name: 'שדון העדר וההשוואה', short: 'עדר', says: 'ראית איזה רכב דני הביא? אני חייבת כזה!',
+    sign: 'המחשבה מתחילה ב"כולם" או ב"לא נעים ש...". הרצון נולד רגע אחרי שראית משהו אצל מישהי אחרת.',
+    todo: 'תרגמי את הקנייה להחזר חודשי ושאלי: הייתי רוצה את זה גם אם אף אחד לא היה יודע שקניתי?' },
+  { id: 'tmrw', name: 'שדון "מה כבר יהיה מחר"', short: 'מה יהיה מחר', says: 'יהיה בסדר, המשכורת הבאה תכסה.',
+    sign: 'את אומרת "יהיה בסדר" בלי לדעת כמה יש בעו״ש. מסגרת האשראי הפכה לחלק קבוע מהחודש.',
+    todo: 'הוראת קבע קטנה לחיסכון ביום שהמשכורת נכנסת, כך ש"מחר" מקבל את חלקו לפני שהיום מספיק לבזבז אותו.' },
+  { id: 'rel', name: 'שדון "הכול יחסי"', short: 'הכול יחסי', says: 'נו, זה רק עוד קצת.',
+    sign: 'כשאת משווה מחיר למחיר שהוצג לידו, ולא ליכולת שלך.',
+    todo: 'מגיעים עם מספר משלך. לפני שאת נכנסת לחנות, לסוכנות או לאתר, החליטי כמה את מוכנה להוציא וכתבי את זה בטלפון.' },
+];
+const REMINDERS = [
+  'לא כל רצון לקנות התחיל כרצון שלך.',
+  'פרסומת כמעט אף פעם לא מוכרת לך מוצר. היא מוכרת לך תחושה.',
+  'מודעות היא מחצית הדרך לפתרון.',
+  'צרכנות נבונה לא אומרת להפסיק לרצות.',
+  'אם את לא מגיעה עם מספר משלך, מספר של מישהו אחר יקבע בשבילך.',
+  'מי מנהל אותי ברגע הזה?',
+];
+const RULE = 'על כל קנייה לא מתוכננת, לא קונים באותו רגע. משאירים את המוצר בעגלה, סוגרים את האפליקציה, ומחכים יום. אם אחרי 24 שעות את עדיין רוצה אותו, יש לו מקום בתקציב והמחיר נראה לך הגיוני, קני בשמחה ובלי רגשות אשם. אם שכחת ממנו, השדון ניסה ולא הצליח.';
+const FEELINGS = ['עייפה', 'משועממת', 'לחוצה', 'מתוסכלת', 'אחרי ויכוח', 'בודדה', 'ראיתי אצל חברה', 'פחד לפספס', 'שמחה'];
+const PLACES = ['אינסטגרם', 'טיקטוק', 'פייסבוק', 'אתר', 'אפליקציה', 'חנות'];
+const BAR_COLORS = ['#C8375A', '#F4C44E', '#9DBB97', '#BFA9D6', '#EC8C9C'];
+
+/* ---------- the character: hand-built parts ---------- */
+const K = '#1C1D22';
+const sw = (w = 2.2) => `stroke="${K}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"`;
+const SKINS = ['#F7DCC6', '#EDC3A2', '#D6A07A', '#A9714D', '#6F4632'];
+const HAIRC = ['#231A18', '#4B2F24', '#7B4B2C', '#A8492F', '#D8AE66', '#B7B0A8'];
+const TOPS = ['#FFFDF7', '#C8375A', '#F4C44E', '#9DBB97', '#2B2C33'];
+const BOTC = ['#1C1D22', '#3F5D8C', '#C8375A', '#C49556', '#EFE3CC'];
+const HAIRS = [['wavy', 'שיער גלי וארוך'], ['straight', 'שיער חלק וארוך'], ['bob', 'קארה'], ['curly', 'שיער מתולתל'], ['bun', 'קוקו גבוה']];
+const BOTTOMS = [['wide', 'מכנסיים רחבים'], ['skirt', 'חצאית']];
+const EXTRAS = [['glasses', 'משקפיים'], ['earrings', 'עגילים'], ['bag', 'תיק']];
+/* Default look follows the woman on the book cover. */
+const DEF_AV = { skin: 1, hair: 'wavy', hairColor: 1, top: 0, bottom: 'wide', bottomColor: 0, glasses: false, earrings: false, bag: false };
+
+const HAIR_BACK = {
+  wavy: 'M100 29C72 29 63 50 66 72C68 86 57 94 61 108C65 120 55 128 59 142C62 154 53 160 61 170C71 180 88 174 92 162L108 162C112 174 129 180 139 170C147 160 138 154 141 142C145 128 135 120 139 108C143 94 132 86 134 72C137 50 128 29 100 29Z',
+  straight: 'M100 30C76 30 68 48 68 72L66 160C80 166 92 164 96 158L104 158C108 164 120 166 134 160L132 72C132 48 124 30 100 30Z',
+  bob: 'M100 30C74 30 65 50 66 72C66 88 68 96 74 101C84 103 92 99 94 96L106 96C108 99 116 103 126 101C132 96 134 88 134 72C135 50 126 30 100 30Z',
+  bun: 'M100 32C78 32 70 50 72 70C74 82 78 88 80 90L120 90C122 88 126 82 128 70C130 50 122 32 100 32Z',
+};
+const HAIR_FRONT = {
+  wavy: 'M77 66C74 44 88 33 103 34C119 35 127 48 124 66C119 54 110 47 99 50C90 52 83 58 77 66Z',
+  straight: 'M77 66C75 44 88 34 100 36C112 34 125 44 123 66C118 52 108 44 100 44C92 44 82 52 77 66Z',
+  bob: 'M77 60C76 42 88 33 100 33C112 33 124 42 123 60C114 56 108 55 100 55C92 55 86 56 77 60Z',
+  bun: 'M78 62C76 44 88 35 100 35C112 35 124 44 122 62C116 50 108 45 100 45C92 45 84 50 78 62Z',
+};
+const CURLS_B = [[76, 48, 14], [100, 34, 16], [124, 48, 14], [69, 72, 13], [131, 72, 13], [70, 96, 13], [130, 96, 13], [78, 118, 12], [122, 118, 12], [88, 38, 12], [112, 38, 12]];
+const CURLS_F = [[85, 45, 8], [100, 41, 9], [115, 45, 8]];
+const curls = (P, c) => P.map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${c}" ${sw()}/>`).join('') + P.map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r - 1.4}" fill="${c}"/>`).join('');
+
+/* Book cover: a white zigzag arrow rising behind her, and a thick gold coin under her feet. */
+const ZIG = 'M10 276L66 200L90 222L138 128L158 146L175.7 86.2';
+const ARROW = `<path d="${ZIG}" fill="none" stroke="${K}" stroke-width="22" stroke-linejoin="miter"/><path d="M183.7 59.4L193.2 97.7L154.8 86.3Z" fill="#FFFDF7" ${sw(2.4)}/><path d="${ZIG}" fill="none" stroke="#FFFDF7" stroke-width="17" stroke-linejoin="miter"/>`;
+const COIN = `<path d="M24 296V320C24 330 58 338 100 338C142 338 176 330 176 320V296" fill="#B9832A" ${sw()}/>
+  <path d="M24 303C24 313 58 321 100 321C142 321 176 313 176 303" fill="none" stroke="#DDA53F" stroke-width="3"/>
+  <path d="M40 309V327M58 313V331M79 316V334M100 317V335M121 316V334M142 313V331M160 309V327" stroke="${K}" stroke-width="1.3" opacity=".35"/>
+  <ellipse cx="100" cy="296" rx="76" ry="16" fill="#F2C14E" ${sw()}/><ellipse cx="100" cy="296" rx="58" ry="11" fill="none" stroke="#D69E2E" stroke-width="3"/>`;
+
+/* Arms: [elbow, hand, hand visible?]. "stand" is hands in pockets, like the cover. */
+const POCKET_L = [[68, 120], [84, 150], false], POCKET_R = [[132, 120], [116, 150], false];
+const ARMS = {
+  stand: [POCKET_L, POCKET_R],
+  hello: [POCKET_L, [[140, 76], [146, 50], true]],
+  wait: [[[76, 124], [95, 114], true], [[124, 124], [105, 114], true]],
+  cheer: [[[64, 64], [58, 38], true], [[136, 64], [142, 38], true]],
+  think: [[[78, 124], [104, 118], true], [[126, 112], [108, 72], true]],
+  buy: [POCKET_L, [[132, 122], [134, 152], true]],
+};
+const star = (x, y, r) => `<path d="M${x} ${y - r}Q${x} ${y} ${x + r} ${y}Q${x} ${y} ${x} ${y + r}Q${x} ${y} ${x - r} ${y}Q${x} ${y} ${x} ${y - r}Z" fill="#F4C44E" ${sw(1.6)}/>`;
+function deco(pose) {
+  if (pose === 'cheer') return `<g class="spark">${star(28, 70, 10)}${star(174, 84, 8)}${star(162, 26, 6)}</g>`;
+  if (pose === 'think') return `<circle cx="134" cy="44" r="3.5" fill="#FFFBF3" ${sw(1.8)}/><circle cx="144" cy="33" r="5" fill="#FFFBF3" ${sw(1.8)}/><path d="M166 4C182 4 190 12 189 21C188 31 178 36 166 35C153 35 146 29 147 20C148 10 155 4 166 4Z" fill="#FFFBF3" ${sw(2)}/><text x="168" y="28" text-anchor="middle" font-family="Secular One,Rubik,sans-serif" font-size="22" fill="#C8375A">?</text>`;
+  return '';
+}
+
+function face(pose) {
+  const L = `fill="none" ${sw()}`;
+  let eyes = `<g class="eyes"><ellipse cx="91" cy="64" rx="2.2" ry="2.8" fill="${K}"/><ellipse cx="109" cy="64" rx="2.2" ry="2.8" fill="${K}"/></g>`;
+  let brows = `<path d="M86 56Q91 53 95 55" ${L}/><path d="M105 55Q109 53 114 56" ${L}/>`;
+  let mouth = `<path d="M95 77Q100 80 105 77" ${L}/>`;
+  if (pose === 'wait') eyes = `<path d="M87 64Q91 67 95 64" ${L}/><path d="M105 64Q109 67 113 64" ${L}/>`;
+  if (pose === 'cheer') { eyes = `<path d="M87 66Q91 61 95 66" ${L}/><path d="M105 66Q109 61 113 66" ${L}/>`; mouth = `<path d="M93 75Q100 85 107 75Z" fill="${K}" ${sw(1.6)}/>`; }
+  if (pose === 'think') {
+    eyes = `<g class="eyes"><ellipse cx="93" cy="62.5" rx="2.2" ry="2.8" fill="${K}"/><ellipse cx="111" cy="62.5" rx="2.2" ry="2.8" fill="${K}"/></g>`;
+    brows = `<path d="M86 55Q91 53 95 55" ${L}/><path d="M105 51Q109 47 114 51" ${L}/>`; mouth = `<path d="M96 78Q101 76 105 78" ${L}/>`;
+  }
+  const rest = eyes + `<path d="M100 66Q98 71 101 72" fill="none" stroke="${K}" stroke-width="1.6" stroke-linecap="round" opacity=".55"/>` + mouth +
+    `<ellipse cx="86" cy="73" rx="4.5" ry="3" fill="#C8375A" opacity=".16"/><ellipse cx="114" cy="73" rx="4.5" ry="3" fill="#C8375A" opacity=".16"/>`;
+  return { brows, rest };
+}
+
+/* Taller, book cover proportions. Head parts keep their original drawing space and are scaled into place. */
+const HEAD_T = 'translate(100 50) scale(.66) translate(-100 -64)';
+const WAVY_BACK = 'M101 30C86 29 78 38 78 50C74 58 64 60 55 66C62 69 67 68 70 70C62 80 52 84 44 95C54 97 60 94 66 92C61 104 55 112 53 122C63 118 71 110 77 102C80 110 82 116 86 120C88 106 88 94 88 84L112 84C114 92 116 100 116 108C122 101 124 92 122 82C125 70 124 60 122 50C121 38 114 30 101 30Z';
+const WAVY_FRONT = 'M84 50C84 38 94 31 106 32C116 33 121 41 120 52C115 44 108 40 101 41C94 42 88 45 84 50Z';
+function figure(av, pose = 'stand', o = {}) {
+  av = Object.assign({}, DEF_AV, av);
+  const sk = SKINS[av.skin] || SKINS[1], hc = HAIRC[av.hairColor] || HAIRC[1];
+  const tp = TOPS[av.top] || TOPS[0], bc = BOTC[av.bottomColor] || BOTC[0];
+  const btn = av.top === 4 ? '#F8F1E4' : K;
+  const s = sw(1.7);
+  const inHead = x => `<g transform="${HEAD_T}">${x}</g>`;
+  let back = '', front = '';
+  if (av.hair === 'wavy') {
+    back = `<path d="${WAVY_BACK}" fill="${hc}" ${s}/><path d="M70 72C64 80 58 86 52 92M76 92C70 102 64 110 58 118M117 88C118 96 118 102 117 106" fill="none" stroke="#fff" stroke-width="1.4" opacity=".18" stroke-linecap="round"/>`;
+    front = `<path d="${WAVY_FRONT}" fill="${hc}" ${s}/>`;
+  } else if (av.hair === 'curly') { back = inHead(curls(CURLS_B, hc)); front = inHead(curls(CURLS_F, hc)); }
+  else {
+    back = inHead((av.hair === 'bun' ? `<circle cx="100" cy="27" r="13" fill="${hc}" ${sw()}/>` : '') + `<path d="${HAIR_BACK[av.hair] || HAIR_BACK.straight}" fill="${hc}" ${sw()}/>`);
+    front = inHead(`<path d="${HAIR_FRONT[av.hair] || HAIR_FRONT.straight}" fill="${hc}" ${sw()}/>`);
+  }
+  const neck = `<path d="M95 60V82H105V60Z" fill="${sk}" ${s}/>`;
+  const shirt = `<path d="M78 90C80 82 88 79 100 79C112 79 120 82 122 90L124 150C110 154 90 154 76 150Z" fill="${tp}" ${s}/>
+    <path d="M112 94C116 110 117 130 118 151L124 150L122 92Z" fill="${K}" opacity=".07"/>
+    <path d="M94 79L100 92L106 79Z" fill="${sk}"/>
+    <path d="M92 78L100 92L95 98L87 83Z" fill="${tp}" ${s}/><path d="M108 78L100 92L105 98L113 83Z" fill="${tp}" ${s}/>
+    <path d="M100 97V148" stroke="${btn}" stroke-width="1.2" opacity=".5"/>
+    <circle cx="100" cy="108" r="1.5" fill="${btn}"/><circle cx="100" cy="122" r="1.5" fill="${btn}"/><circle cx="100" cy="136" r="1.5" fill="${btn}"/>`;
+  const bottoms = av.bottom === 'skirt'
+    ? `<path d="M86 232L85 292H96L97 234Z" fill="${sk}" ${s}/><path d="M103 234L104 292H115L114 232Z" fill="${sk}" ${s}/>
+       <path d="M77 146H123L140 232C114 238 86 238 60 232Z" fill="${bc}" ${s}/>
+       <path d="M82 290H97C100 294 100 299 98 303H74C73 297 76 292 82 290Z" fill="#fff" ${s}/><path d="M103 290H118C124 292 127 297 126 303H102C100 299 100 294 103 290Z" fill="#fff" ${s}/>`
+    : `<path d="M77 146H123L144 294H106L100 196L94 294H56Z" fill="${bc}" ${s}/>
+       <path d="M77 153H123M84 152L79 170M116 152L121 170" fill="none" stroke="${av.bottomColor === 0 ? '#fff' : K}" stroke-width="1.3" opacity=".25"/>
+       <path d="M70 206L63 292M130 206L137 292" stroke="${av.bottomColor === 0 ? '#fff' : K}" stroke-width="1.2" opacity=".12"/>
+       <path d="M58 292H94C96 296 96 300 94 303H54C53 298 54 294 58 292Z" fill="#fff" ${s}/><path d="M106 292H142C146 294 147 298 146 303H106C104 300 104 296 106 292Z" fill="#fff" ${s}/>`;
+  const bagAcc = av.bag && pose !== 'buy' ? `<path d="M116 88L86 142" stroke="${K}" stroke-width="2.4" stroke-linecap="round"/><path d="M72 140H96V156C96 158 94 160 92 160H76C74 160 72 158 72 156Z" fill="#F4C44E" ${s}/><path d="M72 146H96" stroke="${K}" stroke-width="1.4"/>` : '';
+  const head = inHead(`<path d="M100 39C114 39 123 50 123 64C123 79 113 89 100 89C87 89 77 79 77 64C77 50 86 39 100 39Z" fill="${sk}" ${sw()}/>`);
+  const f = face(pose);
+  const glasses = av.glasses ? `<g fill="#fff" fill-opacity=".25" ${sw(2)}><circle cx="91" cy="64" r="7.5"/><circle cx="109" cy="64" r="7.5"/></g><path d="M98.5 63Q100 61.5 101.5 63" fill="none" ${sw(2)}/>` : '';
+  const ear = av.earrings ? `<circle cx="78.5" cy="76" r="4" fill="none" stroke="#D69E2E" stroke-width="2.6"/><circle cx="121.5" cy="76" r="4" fill="none" stroke="#D69E2E" stroke-width="2.6"/>` : '';
+  const seg = (a, b, w, c) => `<path d="M${a[0]} ${a[1]}L${b[0]} ${b[1]}" stroke="${K}" stroke-width="${w + 3}" stroke-linecap="round"/><path d="M${a[0]} ${a[1]}L${b[0]} ${b[1]}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`;
+  const arm = (sh, [el, hd, show]) => seg(el, hd, 6.5, sk) + seg(sh, el, 10, tp) + cuff(sh, el) + (show ? `<circle cx="${hd[0]}" cy="${hd[1]}" r="4.6" fill="${sk}" ${s}/>` : '');
+  // Rolled sleeve: a short, slightly wider band just above the elbow.
+  function cuff(a, b) {
+    const dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy), ux = dx / L, uy = dy / L;
+    const p = [b[0] - ux * 9, b[1] - uy * 9], q = [b[0] - ux * 2, b[1] - uy * 2];
+    return `<path d="M${p[0]} ${p[1]}L${q[0]} ${q[1]}" stroke="${K}" stroke-width="14" stroke-linecap="butt"/><path d="M${p[0] + ux * 1.4} ${p[1] + uy * 1.4}L${q[0] - ux * 1.4} ${q[1] - uy * 1.4}" stroke="${tp}" stroke-width="11" stroke-linecap="butt"/>`;
+  }
+  const A = ARMS[pose] || ARMS.stand;
+  let props = '';
+  if (pose === 'wait') props = `<g class="steam" fill="none" stroke="${K}" stroke-width="1.6" stroke-linecap="round"><path d="M97 96C95 92 99 89 97 85"/><path d="M103 96C101 92 105 89 103 85"/></g><path d="M92 100H108V116C108 119 105 122 102 122H98C95 122 92 119 92 116Z" fill="#C8375A" ${s}/><path d="M108 104C113 104 113 112 108 112" fill="none" ${s}/>`;
+  if (pose === 'buy') props = `<path d="M120 150H148L152 186H116Z" fill="#C8375A" ${s}/><path d="M126 151C126 140 142 140 142 151" fill="none" ${s}/>`;
+  const handsOnTop = A.map(([, hd, show]) => show ? `<circle cx="${hd[0]}" cy="${hd[1]}" r="4.6" fill="${sk}" ${s}/>` : '').join('');
+  const arms = arm([80, 90], A[0]) + arm([120, 90], A[1]) + props + (props ? handsOnTop : '');
+  const vb = o.vb || (o.coin ? '0 0 200 342' : '0 0 200 306');
+  return `<svg class="fig pose-${pose}${o.cls ? ' ' + o.cls : ''}" viewBox="${vb}" role="img" aria-label="${o.label || 'הדמות שלך'}">${o.arrow ? ARROW : ''}${o.coin ? COIN : ''}<g class="who">${back}${neck}${bottoms}${shirt}${bagAcc}${head}${inHead(f.rest)}${front}${inHead(f.brows + glasses + ear)}${arms}</g>${o.vb ? '' : deco(pose)}</svg>`;
+}
+
+let clipN = 0;
+function photoFig(src, pose, o = {}) {
+  const id = 'pc' + (++clipN);
+  const blob = 'M100 135C146 133 182 169 180 217C178 263 146 297 100 295C54 293 20 265 22 215C24 169 56 137 100 135Z';
+  return `<svg class="fig pose-${pose}${o.cls ? ' ' + o.cls : ''}" viewBox="0 0 200 ${o.coin ? 342 : 306}" role="img" aria-label="התמונה שלך">${o.arrow ? ARROW : ''}${o.coin ? COIN : ''}
+    <defs><clipPath id="${id}"><path d="${blob}"/></clipPath></defs>
+    <g class="who"><path d="${blob}" fill="#C8375A" ${sw(2.4)} transform="rotate(-7 100 215)"/>
+    <image href="${src}" x="20" y="133" width="162" height="164" preserveAspectRatio="xMidYMid slice" clip-path="url(#${id})"/>
+    <path d="${blob}" fill="none" ${sw(3)}/></g>${deco(pose)}</svg>`;
+}
+
+function hero(pose, m = S.me, o = {}) {
+  return m && m.mode === 'photo' && m.photo ? photoFig(m.photo, pose, o) : figure(m ? m.av : DEF_AV, pose, o);
+}
+function headArt(m = S.me) {
+  return m.mode === 'photo' && m.photo ? `<img src="${m.photo}" alt="">` : figure(m.av, 'stand', { vb: '70 22 60 60', label: 'הדמות שלך' });
+}
+
+/* ---------- the five demons ---------- */
+const DART = {
+  comp: `<path d="M78 76C92 72 95 58 88 50" fill="none" ${sw(2.4)}/><path d="M85 44L94 49L85 55Z" fill="#EC8C9C" ${sw()}/>
+    <path d="M34 30L29 15L43 25Z" fill="#F4C44E" ${sw()}/><path d="M66 30L71 15L57 25Z" fill="#F4C44E" ${sw()}/>
+    <path d="M50 20C72 20 85 37 84 58C83 80 70 92 50 92C30 92 17 80 16 58C15 37 28 20 50 20Z" fill="#EC8C9C" ${sw(2.4)}/>
+    <path d="M39 21L37 9L45 15L50 5L55 14L63 8L62 21Z" fill="#F4C44E" ${sw(2)} transform="rotate(-12 50 15)"/>
+    <path d="M33 43Q38 38 43 43M57 43Q62 38 67 43" fill="none" ${sw(2.4)}/>
+    <circle cx="31" cy="51" r="5" fill="#C8375A" opacity=".35"/><circle cx="69" cy="51" r="5" fill="#C8375A" opacity=".35"/>
+    <path d="M45 52Q50 56 55 52" fill="none" ${sw()}/>
+    <rect x="32" y="60" width="36" height="26" rx="3" fill="#F4C44E" ${sw()}/><path d="M50 61V85" stroke="#C8375A" stroke-width="4"/>
+    <path d="M50 60C42 51 36 58 44 62ZM50 60C58 51 64 58 56 62Z" fill="#C8375A" ${sw(1.8)}/>
+    <path d="M19 60C23 70 29 73 34 71M81 60C77 70 71 73 66 71" fill="none" ${sw(2.4)}/>`,
+  temp: `<path d="M30 82C16 90 10 82 13 74" fill="none" ${sw(2.4)}/><path d="M9 76L14 67L18 77Z" fill="#F7CF5E" ${sw(2)}/>
+    <path d="M38 20L33 5L47 15Z" fill="#C8375A" ${sw()}/><path d="M62 20L67 5L53 15Z" fill="#C8375A" ${sw()}/>
+    <path d="M50 13C67 13 75 30 74 49C73 71 69 90 50 90C31 90 27 71 26 49C25 30 33 13 50 13Z" fill="#F7CF5E" ${sw(2.4)}/>
+    <path d="M35 42Q40 46 45 42" fill="none" ${sw(2.4)}/>
+    <circle cx="60" cy="41" r="5.5" fill="#fff" ${sw(2)}/><circle cx="61.5" cy="42" r="2.4" fill="${K}"/>
+    <path d="M54 31Q60 27 66 32" fill="none" ${sw()}/>
+    <path d="M38 55Q50 66 62 55Q50 60 38 55Z" fill="${K}" ${sw(1.8)}/>
+    <circle cx="34" cy="51" r="4" fill="#C8375A" opacity=".3"/>
+    <path d="M73 57C80 55 84 50 85 45" fill="none" ${sw(2.4)}/><path d="M85 45V56" stroke="${K}" stroke-width="1.6"/>
+    <path d="M77 56H93V73L85 79L77 73Z" fill="#FFFBF3" ${sw(2)}/>
+    <text x="85" y="71" text-anchor="middle" font-family="Secular One,Rubik,sans-serif" font-size="12" fill="#C8375A">%</text>
+    <path d="M27 58C21 62 19 67 21 72" fill="none" ${sw(2.4)}/>
+    <ellipse cx="42" cy="91" rx="6" ry="3.5" fill="#F7CF5E" ${sw(2)}/><ellipse cx="58" cy="91" rx="6" ry="3.5" fill="#F7CF5E" ${sw(2)}/>`,
+  herd: (() => {
+    const P = [[30, 48, 14], [50, 38, 16], [70, 48, 14], [24, 66, 13], [76, 66, 13], [34, 82, 13], [66, 82, 13], [50, 84, 13], [50, 60, 22]];
+    return `<path d="M30 38C20 28 12 38 18 44C22 48 28 45 25 40" fill="none" ${sw(2.6)}/><path d="M70 38C80 28 88 38 82 44C78 48 72 45 75 40" fill="none" ${sw(2.6)}/>` +
+      P.map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#F3E7D3" ${sw(2.4)}/>`).join('') +
+      P.map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r - 1.4}" fill="#F3E7D3"/>`).join('') +
+      `<path d="M36 50C36 40 64 40 64 50V62C64 72 57 76 50 76C43 76 36 72 36 62Z" fill="#F4C9BE" ${sw()}/>
+      <circle cx="43" cy="56" r="5" fill="#fff" ${sw(2)}/><circle cx="57" cy="56" r="5" fill="#fff" ${sw(2)}/>
+      <circle cx="40.5" cy="57" r="2.4" fill="${K}"/><circle cx="54.5" cy="57" r="2.4" fill="${K}"/>
+      <path d="M38 48Q43 45 47 48M53 48Q57 45 62 48" fill="none" ${sw(2)}/>
+      <ellipse cx="50" cy="68" rx="3" ry="3.5" fill="${K}"/>`;
+  })(),
+  tmrw: `<path d="M84 70C94 74 96 84 90 88" fill="none" ${sw(2.4)}/><path d="M85 90L94 92L89 83Z" fill="#BFA9D6" ${sw(2)}/>
+    <path d="M38 32L33 18L47 28Z" fill="#F4C44E" ${sw()}/><path d="M64 30L70 16L58 27Z" fill="#F4C44E" ${sw()}/>
+    <path d="M18 68C16 45 32 28 53 28C74 28 87 44 85 65C83 84 67 92 50 92C31 92 19 84 18 68Z" fill="#BFA9D6" ${sw(2.4)}/>
+    <path d="M33 37H48V41C48 45 45 47 40.5 47S33 45 33 41ZM55 37H70V41C70 45 67 47 62.5 47S55 45 55 41Z" fill="${K}"/>
+    <path d="M48 39H55" ${sw(2)}/>
+    <path d="M35 58H47M56 58H68" fill="none" ${sw(2.4)}/>
+    <path d="M36 58Q41 64 46 58ZM57 58Q62 64 67 58Z" fill="${K}"/>
+    <path d="M44 72Q52 77 60 70" fill="none" ${sw(2.4)}/>
+    <circle cx="30" cy="66" r="4.5" fill="#C8375A" opacity=".3"/>
+    <path d="M83 58C90 54 92 48 90 42" fill="none" ${sw(2.4)}/>
+    <g transform="rotate(18 88 34)"><rect x="77" y="27" width="22" height="14" rx="2.5" fill="#F4C44E" ${sw(2)}/><path d="M77 32H99" stroke="${K}" stroke-width="2.4"/></g>
+    <path d="M20 72C12 74 8 70 8 64" fill="none" ${sw(2.4)}/>
+    <ellipse cx="30" cy="91" rx="7" ry="4" fill="#BFA9D6" ${sw(2)} transform="rotate(-20 30 91)"/><ellipse cx="44" cy="93" rx="7" ry="4" fill="#BFA9D6" ${sw(2)}/>`,
+  rel: `<path d="M72 80C86 84 90 74 86 66" fill="none" ${sw(2.4)}/><path d="M81 64L88 58L91 67Z" fill="#9DBB97" ${sw(2)}/>
+    <path d="M38 22L35 8L47 18Z" fill="#F4C44E" ${sw()}/><path d="M62 22L65 8L53 18Z" fill="#F4C44E" ${sw()}/>
+    <path d="M50 15C68 15 76 31 76 50C76 72 70 91 50 91C30 91 24 72 24 50C24 31 32 15 50 15Z" fill="#9DBB97" ${sw(2.4)}/>
+    <circle cx="40" cy="45" r="7.5" fill="#fff" ${sw(2)}/><circle cx="41" cy="46" r="3.2" fill="${K}"/>
+    <circle cx="61" cy="46" r="4" fill="#fff" ${sw(2)}/><circle cx="61.5" cy="46.5" r="1.8" fill="${K}"/>
+    <path d="M33 34Q40 32 46 35M56 37Q61 32 67 36" fill="none" ${sw()}/>
+    <path d="M41 64Q46 61 51 64T61 63" fill="none" ${sw(2.4)}/>
+    <path d="M75 56C82 54 86 48 86 43" fill="none" ${sw(2.4)}/>
+    <circle cx="86" cy="41" r="4.5" fill="#9DBB97" ${sw(2)}/>
+    <path d="M84 36Q88 30 93 33M84 46Q88 50 93 47" fill="none" ${sw(2)}/>
+    <path d="M25 58C18 62 14 68 14 74" fill="none" ${sw(2.4)}/>
+    <g transform="rotate(-24 14 78)"><rect x="0" y="74" width="30" height="9" rx="1.5" fill="#F4C44E" ${sw(2)}/><path d="M6 74V78M12 74V77M18 74V78M24 74V77" stroke="${K}" stroke-width="1.4"/></g>
+    <ellipse cx="42" cy="92" rx="6" ry="3.5" fill="#9DBB97" ${sw(2)}/><ellipse cx="58" cy="92" rx="6" ry="3.5" fill="#9DBB97" ${sw(2)}/>`,
+};
+const demonArt = id => DART[id] ? `<svg class="demon-art" viewBox="0 0 100 100" aria-hidden="true">${DART[id]}</svg>` : '';
+
+/* ---------- small illustrations ---------- */
+const BAG = `<svg class="bagart" viewBox="0 0 60 60" aria-hidden="true"><path d="M22 22C22 10 38 10 38 22" fill="none" ${sw(2.6)}/><path d="M12 21H48L45 51C45 53 43 54 41 54H19C17 54 15 53 15 51Z" fill="#C8375A" ${sw()}/><path d="M20 28C20 34 24 36 30 36" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".6"/></svg>`;
+const HILL = `<svg class="hill" viewBox="0 0 300 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 34C50 14 96 40 150 26C200 12 250 30 300 18V60H0Z" fill="#F4C44E"/></svg>`;
+const CHECK = `<svg viewBox="0 0 28 28" aria-hidden="true"><path d="M5 14C8 16 10 19 11 22C14 14 18 8 25 3" fill="none" stroke="#C8375A" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+function jarSVG(n, drop) {
+  n = Math.max(0, Math.min(9, n));
+  const body = 'M30 40C22 50 18 64 18 84V124C18 136 28 142 40 142H80C92 142 102 136 102 124V84C102 64 98 50 90 40';
+  let coins = '';
+  for (let i = 0; i < n; i++) coins += `<ellipse class="${drop && i === n - 1 ? 'late' : ''}" cx="${60 + (i % 2 ? 5 : -5)}" cy="${128 - i * 8}" rx="22" ry="6" fill="#F2C14E" ${sw(2)}/>`;
+  const top = 128 - Math.max(0, n - 1) * 8;
+  return `<svg class="jar" viewBox="0 0 120 150" role="img" aria-label="צנצנת">
+    ${drop ? `<g class="drop" style="--dy:${top - 12}px"><circle cx="60" cy="12" r="12" fill="#F2C14E" ${sw(2)}/><circle cx="60" cy="12" r="6.5" fill="none" stroke="#D69E2E" stroke-width="2"/></g>` : ''}
+    <path d="${body}Z" fill="#FFFBF3" fill-opacity=".8"/>${coins}
+    <path d="${body}" fill="none" ${sw(2.4)}/><ellipse cx="60" cy="40" rx="31" ry="6" fill="none" ${sw(2.4)}/>
+    <path d="M30 62C28 74 28 92 30 106" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".9"/></svg>`;
+}
+
+/* ---------- storage: this phone only ---------- */
+function normMe(m) {
+  m = m && typeof m === 'object' ? m : {};
+  const av = Object.assign({}, DEF_AV, m.av && typeof m.av === 'object' ? m.av : {});
+  const photo = typeof m.photo === 'string' && m.photo.startsWith('data:image/') ? m.photo : '';
+  return { mode: m.mode === 'photo' && photo ? 'photo' : 'avatar', photo, av };
+}
+function load() {
+  try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && Array.isArray(s.items)) { s.me = normMe(s.me); return s; } } catch (e) {}
+  return { items: [], threshold: 200, name: '', onboarded: false, me: normMe() };
+}
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(S)); return true; }
+  catch (e) { toast('הזיכרון בטלפון מלא. נסי בלי תמונה'); return false; }
+}
+let S = load();
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+// The shekel sign is set in Rubik: in Secular One it reads like the letters שח.
+const money = n => Math.round(n || 0).toLocaleString('he-IL') + ' <span class="ils">₪</span>';
+const demonOf = id => DEMONS.find(d => d.id === id);
+const pad = n => String(n).padStart(2, '0');
+const hhmm = t => { const d = new Date(t); return pad(d.getHours()) + ':' + pad(d.getMinutes()); };
+const endOf = it => it.createdAt + DAY;
+const isReady = it => it.status === 'waiting' && Date.now() >= endOf(it);
+const waiting = () => S.items.filter(i => i.status === 'waiting').sort((a, b) => a.createdAt - b.createdAt);
+const savedTotal = list => (list || S.items).filter(i => i.status === 'skipped').reduce((a, i) => a + i.price, 0);
+const hms = ms => { const s = Math.max(0, Math.floor(ms / 1000)); return [Math.floor(s / 3600), Math.floor(s % 3600 / 60), s % 60].map(pad).join(':'); };
+function safeUrl(u) {
+  u = (u || '').trim(); if (!u) return '';
+  if (!/^https?:\/\//i.test(u)) u = 'https://' + u;
+  try { const x = new URL(u); return /^https?:$/.test(x.protocol) && x.hostname.includes('.') ? x.href : ''; } catch (e) { return ''; }
+}
+const host = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch (e) { return ''; } };
+function dayLabel(t) {
+  const d = new Date(t), today = new Date(); today.setHours(0, 0, 0, 0);
+  const diff = Math.round((today - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / DAY);
+  if (diff === 0) return 'היום';
+  if (diff === 1) return 'אתמול';
+  return d.toLocaleDateString('he-IL', { weekday: 'long', day: 'numeric', month: 'long' });
+}
+function toast(msg) {
+  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('show'), 2400);
+}
+const photo = it => it.photo ? `<img src="${it.photo}" alt="">` : BAG;
+function storeLine(it) {
+  const label = esc(it.store || host(it.link) || '');
+  if (it.link) return `<a class="store" href="${esc(it.link)}" target="_blank" rel="noopener">${label || 'לחנות'}</a>`;
+  return label ? `<span class="store">${label}</span>` : '';
+}
+
+/* ---------- routing ---------- */
+let view = 'home', param = null, draft = null, focusId = null, listTab = 'waiting', insTab = 'week', lookDraft = null;
+function go(v, p) { if (v !== 'look') lookDraft = null; view = v; param = p ?? null; render(); window.scrollTo(0, 0); }
+document.querySelectorAll('.nav [data-go]').forEach(a => a.addEventListener('click', () => go(a.dataset.go)));
+
+const TABS = { home: 'home', list: 'list', challenge: 'challenge', insights: 'insights', more: 'more', add: 'home', decide: 'home', tips: 'more', rule: 'more', look: 'more' };
+function render(quiet) {
+  const onb = !S.onboarded;
+  document.body.classList.toggle('splash', onb && !param);
+  document.body.classList.toggle('no-nav', onb);
+  $('#nav').hidden = onb;
+  document.querySelectorAll('.nav [data-go]').forEach(a => {
+    const on = a.dataset.go === TABS[view]; a.classList.toggle('on', on);
+    on ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current');
+  });
+  const V = { home: vHome, add: vAdd, decide: vDecide, list: vList, challenge: vChallenge, insights: vInsights, more: vMore, tips: vTips, rule: vRule, look: vLook };
+  $('#app').innerHTML = '<div class="view' + (quiet ? '' : ' in') + '">' + (onb ? vSplash() : (V[view] || vHome)()) + '</div>';
+  bind();
+  tick();
+}
+
+function header(title, sub, back) {
+  const n = waiting().filter(isReady).length;
+  return `<header class="hdr">
+    <div>${back ? '<button class="back" data-act="back">חזרה</button>' : ''}<h1>${title}</h1>${sub ? `<p class="sub">${sub}</p>` : ''}</div>
+    ${back ? '' : `<button class="me-btn" data-go2="more" aria-label="הפרופיל שלי">${headArt()}</button>`}
+  </header>${!back && n ? `<button class="ready-pill" data-go2="list">${n === 1 ? 'פריט אחד מחכה להחלטה' : n + ' פריטים מחכים להחלטה'}</button>` : ''}`;
+}
+
+/* ---------- views ---------- */
+const DIG = '<div class="digits" data-dig><span><b></b><small>שעות</small></span><i>:</i><span><b></b><small>דקות</small></span><i>:</i><span><b></b><small>שניות</small></span></div>';
+
+function lookPanel() {
+  if (!lookDraft) lookDraft = JSON.parse(JSON.stringify(S.me));
+  const L = lookDraft, av = L.av, isPhoto = L.mode === 'photo';
+  const swatch = (key, list, label) => `<div class="swatches">${list.map((c, i) => `<button class="sw${av[key] === i ? ' on' : ''}" data-av="${key}" data-v="${i}" style="--c:${c}" aria-label="${label} ${i + 1}" aria-pressed="${av[key] === i}"></button>`).join('')}</div>`;
+  const opts = isPhoto ? `<div class="photo-box">
+      ${L.photo ? `<img class="me-photo" src="${L.photo}" alt="התמונה שלך">` : ''}
+      <button class="btn${L.photo ? ' ghost' : ''}" data-act="me-photo">${L.photo ? 'לבחור תמונה אחרת' : 'העלאת תמונה'}</button>
+      ${L.photo ? '<button class="link" data-act="me-photo-del">להסיר את התמונה</button>' : ''}
+      <p class="hint">התמונה נחתכת לריבוע ונשמרת רק בטלפון שלך.</p></div>`
+    : `<div class="opt-h">גוון עור</div>${swatch('skin', SKINS, 'גוון עור')}
+      <div class="opt-h">שיער</div><div class="styles">${HAIRS.map(([k, n]) => `<button class="sty${av.hair === k ? ' on' : ''}" data-av="hair" data-v="${k}" aria-label="${n}" aria-pressed="${av.hair === k}">${figure({ ...av, hair: k, glasses: false, earrings: false }, 'stand', { vb: '64 18 72 72', label: n })}</button>`).join('')}</div>
+      <div class="opt-h">צבע שיער</div>${swatch('hairColor', HAIRC, 'צבע שיער')}
+      <div class="opt-h">חולצה</div>${swatch('top', TOPS, 'צבע חולצה')}
+      <div class="opt-h">מכנסיים או חצאית</div><div class="chips" style="margin-bottom:12px">${BOTTOMS.map(([k, n]) => `<button class="chip${av.bottom === k ? ' on' : ''}" data-av="bottom" data-v="${k}" aria-pressed="${av.bottom === k}">${n}</button>`).join('')}</div>
+      ${swatch('bottomColor', BOTC, 'צבע')}
+      <div class="opt-h">תוספות</div><div class="chips">${EXTRAS.map(([k, n]) => `<button class="chip${av[k] ? ' on' : ''}" data-avt="${k}" aria-pressed="${!!av[k]}">${n}</button>`).join('')}</div>
+      <div class="btn-stack"><button class="btn sun" data-act="av-rand">הפתעי אותי</button></div>`;
+  return `<div class="look-stage" id="look-prev">${hero('hello', L, { coin: true })}</div>
+    <div class="modes">
+      <button class="mode${!isPhoto ? ' on' : ''}" data-mode="avatar" aria-pressed="${!isPhoto}">לבנות דמות</button>
+      <button class="mode${isPhoto ? ' on' : ''}" data-mode="photo" aria-pressed="${isPhoto}">תמונה שלי</button>
+    </div>${opts}`;
+}
+
+/* Opening screen art: a thick gold coin as a 24 hour dial, a rose hand sweeping the day,
+   and small coins dropping onto two growing stacks. */
+function coinClock() {
+  const cx = 150, cy = 146, R = 112, ring = 124, C = +(2 * Math.PI * ring).toFixed(1);
+  let ticks = '';
+  for (let h = 0; h < 24; h++) {
+    const a = (h / 24) * 2 * Math.PI - Math.PI / 2, long = h % 6 === 0;
+    const r1 = long ? 84 : 90, r2 = 100;
+    ticks += `<line x1="${(cx + r1 * Math.cos(a)).toFixed(1)}" y1="${(cy + r1 * Math.sin(a)).toFixed(1)}" x2="${(cx + r2 * Math.cos(a)).toFixed(1)}" y2="${(cy + r2 * Math.sin(a)).toFixed(1)}" stroke="${K}" stroke-width="${long ? 4 : 2.2}" stroke-linecap="round"/>`;
+  }
+  const stackCoin = (x, y) => `<path d="M${x - 27} ${y}V${y + 7}A27 8 0 0 0 ${x + 27} ${y + 7}V${y}" fill="#B9832A" ${sw(2)}/><ellipse cx="${x}" cy="${y}" rx="27" ry="8" fill="#F2C14E" ${sw(2)}/><ellipse cx="${x}" cy="${y}" rx="17" ry="4.6" fill="none" stroke="#D69E2E" stroke-width="2"/>`;
+  const stack = (x, n) => Array.from({ length: n }, (_, i) => stackCoin(x, 318 - i * 10)).join('');
+  const faller = (x, y, cls) => `<g class="fall ${cls}"><g class="tumble">${stackCoin(x, y)}</g></g>`;
+  return `<svg class="cclock" viewBox="0 0 300 340" role="img" aria-label="שעון של 24 שעות עשוי ממטבע זהב">
+    <circle cx="${cx}" cy="${cy}" r="${ring}" fill="none" stroke="#FFFDF7" stroke-width="10" opacity=".55"/>
+    <circle class="fill" cx="${cx}" cy="${cy}" r="${ring}" fill="none" stroke="#C8375A" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" style="--c:${C}" transform="rotate(-90 ${cx} ${cy})"/>
+    <g class="face">
+      <circle cx="${cx}" cy="${cy + 12}" r="${R}" fill="#B9832A" ${sw(2.6)}/>
+      <path d="M${cx - R + 6} ${cy + 30}A${R} ${R} 0 0 0 ${cx + R - 6} ${cy + 30}" fill="none" stroke="#DDA53F" stroke-width="3"/>
+      <circle cx="${cx}" cy="${cy}" r="${R}" fill="#F2C14E" ${sw(2.6)}/>
+      <circle cx="${cx}" cy="${cy}" r="${R - 8}" fill="none" stroke="#D69E2E" stroke-width="3"/>
+      <path d="M${cx - 70} ${cy - 62}A95 95 0 0 1 ${cx + 20} ${cy - 96}" fill="none" stroke="#FFF3CF" stroke-width="7" stroke-linecap="round" opacity=".7"/>
+      ${ticks}
+      <g class="sweep"><path d="M${cx} ${cy - 60}V${cy - 96}" stroke="${K}" stroke-width="10" stroke-linecap="round"/><path d="M${cx} ${cy - 60}V${cy - 96}" stroke="#C8375A" stroke-width="6" stroke-linecap="round"/><circle cx="${cx}" cy="${cy - 60}" r="6" fill="#C8375A" ${sw(2.2)}/></g>
+      <text x="${cx}" y="${cy + 26}" text-anchor="middle" font-family="Secular One,Rubik,sans-serif" font-size="92" fill="${K}" stroke="#F2C14E" stroke-width="8" paint-order="stroke" letter-spacing="-2">24</text>
+      <text x="${cx}" y="${cy + 58}" text-anchor="middle" font-family="Secular One,Rubik,sans-serif" font-size="24" fill="#C8375A" stroke="#F2C14E" stroke-width="6" paint-order="stroke">שעות</text>
+    </g>
+    ${stack(42, 4)}${stack(258, 3)}
+    ${faller(42, 278, 'a')}${faller(258, 288, 'b')}
+  </svg>`;
+}
+
+function vSplash() {
+  if (!param) return `<div class="splash-v">
+    ${coinClock()}
+    <h1 class="motto">עוצרות. מחכות.<br>מחליטות נכון.</h1>
+    <button class="btn dark" data-act="setup">התחילי עכשיו</button>
+  </div>`;
+  if (param === 'setup') return `<div class="onb">
+    <button class="back" data-act="onb-back">חזרה</button>
+    <h1>חוק 24 השעות</h1>
+    <div class="sheet rule"><p>${RULE}</p><cite>לינוי הדר | להיות פשוט עצמאית, פיננסית.</cite></div>
+    <label class="lbl" for="o-name">איך קוראים לך?</label>
+    <input class="field" id="o-name" placeholder="השם שלך" value="${esc(S.name)}" autocomplete="given-name">
+    <label class="lbl" for="o-th">החוק חל אצלי על קניות מעל</label>
+    <div class="shek"><input class="field" id="o-th" type="number" inputmode="numeric" min="0" value="${S.threshold}"></div>
+    <p class="hint" style="margin-top:6px">למשל 200 ₪, או כל סכום שתבחרי.</p>
+    <div class="btn-stack"><button class="btn" data-act="onb-next">המשך</button></div>
+    <p class="foot hint c">הכול נשמר רק בטלפון שלך. בלי חשבון, בלי שרת.</p>
+  </div>`;
+  return `<div class="onb">
+    <button class="back" data-act="onb-back">חזרה</button>
+    <h1>הדמות שלך</h1>
+    <p>בני דמות שתלווה אותך כאן, או העלי תמונה שלך.</p>
+    ${lookPanel()}
+    <div class="btn-stack"><button class="btn" data-act="start">יאללה, מתחילות</button></div>
+  </div>`;
+}
+
+function vHome() {
+  const w = waiting();
+  const it = w.find(i => i.id === focusId) || w[0];
+  const hi = S.name ? `היי ${esc(S.name)}` : 'היי';
+  const R = 100, C = 2 * Math.PI * R;
+  let body;
+  if (it) {
+    const ready = isReady(it);
+    body = `<section class="stage">${HILL}
+      <div class="stage-t">${ready ? 'עברו 24 שעות!' : 'הטיימר שלך פעיל'}</div>
+      <div class="stage-row">
+        <div class="fig-wrap">${hero(ready ? 'think' : 'wait', S.me, { coin: true })}</div>
+        <div class="big-ring" data-ring="${it.id}">
+          <svg viewBox="-12 -12 244 244" aria-hidden="true">
+            <circle cx="110" cy="110" r="${R}" fill="none" stroke="rgba(28,29,34,.13)" stroke-width="12"/>
+            <circle cx="110" cy="110" r="86" fill="#F2C14E" stroke="${K}" stroke-width="2.5"/>
+            <circle cx="110" cy="110" r="74" fill="none" stroke="#D69E2E" stroke-width="3"/>
+            <circle class="bar" cx="110" cy="110" r="${R}" fill="none" stroke="#C8375A" stroke-width="12" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="0" transform="rotate(-90 110 110)"/>
+            <circle class="knob" r="9" cx="110" cy="10" fill="${K}" stroke="#FFFBF3" stroke-width="3"/>
+          </svg>
+          <div class="center">${ready ? '<div class="ready-t">הגיע הזמן להחליט</div>' : DIG}</div>
+        </div>
+      </div>
+      <div class="cap"><b>${esc(it.name)}</b> <span class="pr">| ${money(it.price)}</span>
+        <p>${ready ? 'את עדיין רוצה? יש מקום בתקציב? המחיר הגיוני?' : 'מחכות 24 שעות ומחליטות חכם יותר'}</p></div>
+    </section>
+    <div class="btn-stack">
+      ${ready ? `<button class="btn dark" data-act="decide" data-id="${it.id}">בואי נחליט</button>` : ''}
+      <button class="btn${ready ? ' ghost' : ''}" data-act="new">אני רוצה לקנות עכשיו</button>
+    </div>`;
+  } else {
+    body = `<section class="stage">${HILL}
+      <div class="stage-t">אין טיימר פעיל</div>
+      <div class="cover-fig">${hero('stand', S.me, { coin: true, arrow: true })}</div>
+    </section>
+    <p class="stage-p">מתחשק לך לקנות משהו שלא תכננת?<br>עוצרות כאן קודם.</p>
+    <div class="btn-stack" style="margin-top:12px"><button class="btn" data-act="new">אני רוצה לקנות עכשיו</button></div>`;
+  }
+  const queue = w.length > 1 ? `<h2>בעגלה, מחכות יום (${w.length})</h2><div class="queue">${w.map(q => `
+    <button class="pol${q === it ? ' on' : ''}" data-focus="${q.id}" aria-pressed="${q === it}"><div class="ph">${photo(q)}</div><b>${esc(q.name)}</b>
+    <small data-left="${q.id}"></small></button>`).join('')}</div>` : '';
+  const rem = REMINDERS[new Date().getDate() % REMINDERS.length];
+  return `${header(hi, 'זכרי: לא כל רצון הוא צורך.')}
+    ${body}${queue}
+    <div class="notes">
+      <button class="note n1" data-go2="insights"><small>חסכת לעצמך:</small><span class="money">${money(savedTotal())}</span><b>הסטטיסטיקה שלי</b></button>
+      <button class="note n2" data-go2="challenge" data-anchor="demons"><b>השדונים</b><small>איזה שדון דיבר?</small><span class="peek">${demonArt('temp')}</span></button>
+      <button class="note n3" data-go2="tips"><b>זכרי!</b><small>${esc(rem)}</small></button>
+      <button class="note n4" data-go2="list"><b>רשימת קניות</b><small>היומן של כל מה שרצית</small></button>
+    </div>`;
+}
+
+function vAdd() {
+  if (!draft) draft = { step: 1, name: '', price: '', store: '', link: '', photo: '', place: '', feelings: [], demon: null };
+  const d = draft;
+  const steps = n => `<div class="steps" role="img" aria-label="שלב ${n} מתוך 3">${[1, 2, 3].map(i => `<i class="${i <= n ? 'on' : ''}"></i>`).join('')}</div>`;
+  if (d.step === 1) return `${header('פריט חדש', '', true)}
+    ${steps(1)}
+    <button class="photo-pick" data-act="photo">${d.photo ? `<img src="${d.photo}" alt="">` : `${BAG}<span>הוספת תמונה</span>`}</button>
+    <label class="lbl" for="f-name"><span class="n">1</span>מה רציתי לקנות, וכמה זה עולה?</label>
+    <input class="field" id="f-name" placeholder="למשל: נעלי סניקרס" value="${esc(d.name)}">
+    <div class="pair">
+      <div class="shek"><input class="field" id="f-price" type="number" inputmode="decimal" min="0" placeholder="מחיר" aria-label="מחיר" value="${esc(d.price)}"></div>
+      <input class="field" id="f-store" placeholder="חנות" aria-label="חנות" value="${esc(d.store)}">
+    </div>
+    <input class="field" id="f-link" type="url" inputmode="url" dir="ltr" placeholder="קישור למוצר (לא חובה)" aria-label="קישור למוצר" value="${esc(d.link)}" style="margin-top:10px;text-align:right">
+    <div class="lbl"><span class="n">2</span>מתי ואיפה זה קרה?</div>
+    <span class="now">עכשיו, ${hhmm(Date.now())}</span>
+    <div class="chips" data-group="place" style="margin-top:8px">${PLACES.map(p => `<button class="chip${d.place === p ? ' on' : ''}" data-v="${p}">${p}</button>`).join('')}</div>
+    <div class="btn-stack"><button class="btn" data-act="next">המשך</button></div>`;
+
+  if (d.step === 2) {
+    const sel = demonOf(d.demon);
+    return `${header('מה קרה לי שם?', '', true)}
+    ${steps(2)}
+    <div class="lbl"><span class="n">3</span>איך הרגשתי באותו רגע?</div>
+    <div class="chips" data-group="feel">${FEELINGS.map(f => `<button class="chip${d.feelings.includes(f) ? ' on' : ''}" data-v="${f}" aria-pressed="${d.feelings.includes(f)}">${f}</button>`).join('')}</div>
+    <div class="lbl"><span class="n">4</span>איזה שדון דיבר?</div>
+    <div class="dgrid">${DEMONS.map(x => `<button class="dcard${d.demon === x.id ? ' on' : ''}" data-demon="${x.id}" aria-pressed="${d.demon === x.id}">
+      ${demonArt(x.id)}<b>${esc(x.name)}</b><q>${esc(x.says)}</q></button>`).join('')}
+      <button class="dcard none${d.demon === 'none' ? ' on' : ''}" data-demon="none" aria-pressed="${d.demon === 'none'}"><span class="qm" aria-hidden="true">?</span><b>לא בטוחה</b></button></div>
+    <div class="bubble" id="dsign"${sel ? '' : ' hidden'}><b>איך מזהים?</b> <span>${sel ? esc(sel.sign) : ''}</span></div>
+    <div class="btn-stack"><button class="btn" data-act="next">המשך</button></div>`;
+  }
+
+  const under = parseFloat(d.price) < S.threshold;
+  return `${header('פריט חדש', '', true)}
+    ${steps(3)}
+    <div class="itemrow"><div class="pol"><div class="ph">${photo(d)}</div></div>
+      <div class="info"><div class="nm">${esc(d.name)}</div><div class="pr">${money(parseFloat(d.price))}</div>${storeLine(d)}</div></div>
+    ${under ? `<div class="ask"><div class="fig-wrap">${hero('hello')}</div><div><h3>מתחת לסף שלך (${money(S.threshold)})</h3><p>לא צריך לחכות הפעם. נרשום את זה ביומן השדונים, כדי שתראי את הדפוס בסוף השבועיים.</p></div></div>
+      <div class="btn-stack"><button class="btn" data-act="save">רושמות ביומן</button></div>`
+    : `<div class="ask"><div class="fig-wrap">${hero('think')}</div><div><h3>רוצה להוסיף את הפריט לחוק 24 שעות?</h3><p>נחכה 24 שעות, נחשוב שוב, ונבדוק אם זה באמת מתאים לנו.</p></div></div>
+      <div class="btn-stack"><button class="btn" data-act="save">כן, מתחילות את הספירה</button>
+      <button class="btn ghost" data-act="nope">לא. אני לא צריכה את זה כרגע</button></div>`}`;
+}
+
+function vDecide() {
+  const it = S.items.find(i => i.id === param);
+  if (!it) return vHome();
+  const d = demonOf(it.demon);
+  return `${header('רגע ההחלטה', '', true)}
+    <div class="decide-top">
+      <div class="itemcol"><div class="pol" style="width:128px"><div class="ph">${photo(it)}</div></div>
+        <div class="itemrow" style="margin-bottom:0"><div class="info"><div class="nm">${esc(it.name)}</div><div class="pr">${money(it.price)}</div>${storeLine(it)}</div></div></div>
+      <div class="fig-wrap">${hero('think')}</div>
+    </div>
+    <p class="hint" style="margin-top:10px">נכנס לעגלה ${dayLabel(it.createdAt)} ב${hhmm(it.createdAt)}${it.feelings.length ? ', כשהרגשת ' + esc(it.feelings.join(', ')) : ''}</p>
+    ${d ? `<div class="dtag">${demonArt(d.id)}<span><b>${esc(d.name)}:</b> "${esc(d.says)}"</span></div>` : ''}
+    <h2>עברו 24 שעות. אז מה עכשיו?</h2>
+    <div class="checks">
+      <button class="check" data-q="0" aria-pressed="false"><span class="box">${CHECK}</span>את עדיין רוצה אותו?</button>
+      <button class="check" data-q="1" aria-pressed="false"><span class="box">${CHECK}</span>יש לו מקום בתקציב?</button>
+      <button class="check" data-q="2" aria-pressed="false"><span class="box">${CHECK}</span>המחיר נראה לך הגיוני?</button>
+    </div>
+    <p class="verdict" id="verdict" aria-live="polite"></p>
+    <div class="btn-stack">
+      <button class="btn" data-act="buy" data-id="${it.id}">קניתי בשמחה</button>
+      <button class="btn ghost" data-act="skip" data-id="${it.id}">ויתרתי. שכחתי ממנו</button>
+    </div>`;
+}
+
+const LABEL = { waiting: 'ממתינה', ready: 'להחלטה', skipped: 'ויתרתי', bought: 'קניתי', broke: 'לא חיכיתי', logged: 'ביומן' };
+function vList() {
+  const f = { waiting: i => i.status === 'waiting', done: i => i.status !== 'waiting', all: () => true }[listTab];
+  const items = S.items.filter(f).sort((a, b) => listTab === 'waiting' ? a.createdAt - b.createdAt : b.createdAt - a.createdAt);
+  let out = `${header('רשימת קניות', 'היומן של כל מה שרצית')}
+    <div class="tabs">${[['waiting', 'ממתינות'], ['done', 'החלטתי'], ['all', 'הכול']].map(([k, l]) => `<button class="${listTab === k ? 'on' : ''}" data-tab="${k}" aria-pressed="${listTab === k}">${l}</button>`).join('')}</div>`;
+  if (!items.length) return out + `<div class="empty"><div class="fig-wrap">${hero('wait')}</div><p>${listTab === 'waiting' ? 'אין כרגע כלום בעגלה.' : 'עוד אין כאן רשומות.'}</p>
+    <button class="btn" data-act="new">פריט חדש</button></div>`;
+  let last = '', rows = '';
+  for (const it of items) {
+    const dl = dayLabel(it.createdAt);
+    if (listTab !== 'waiting' && dl !== last) { rows += `<div class="day">${dl}</div>`; last = dl; }
+    const d = demonOf(it.demon);
+    const st = isReady(it) ? 'ready' : it.status;
+    const meta = it.status === 'waiting' && !isReady(it) ? `<span data-left="${it.id}" style="direction:ltr;display:inline-block"></span> עד ההחלטה`
+      : esc([hhmm(it.createdAt), it.place, it.feelings.join(', '), d && d.short].filter(Boolean).join(' · '));
+    rows += `<div class="entry"><div class="ph">${photo(it)}</div>
+      <div class="info"><div class="nm">${esc(it.name)}</div><div class="meta">${meta}</div>${storeLine(it)}</div>
+      <div class="end"><div class="amt">${money(it.price)}</div><span class="st ${st}">${LABEL[st]}</span></div></div>`;
+    if (it.status === 'waiting') rows += `<div class="acts">
+      ${isReady(it) ? `<button class="chip hot" data-act="decide" data-id="${it.id}">בואי נחליט</button>` : `<button class="chip" data-act="ics" data-id="${it.id}">תזכורת ביומן</button>`}
+      <button class="chip" data-act="skip" data-id="${it.id}">כבר שכחתי ממנו</button>
+      <button class="chip" data-act="broke" data-id="${it.id}">קניתי בלי לחכות</button></div>`;
+    else rows += `<div class="del"><button data-act="del" data-id="${it.id}">מחיקה</button></div>`;
+  }
+  return out + `<div class="page">${rows}</div><div class="btn-stack"><button class="btn" data-act="new">פריט חדש</button></div>`;
+}
+
+function count(arr) { const m = {}; arr.forEach(k => { if (k) m[k] = (m[k] || 0) + 1; }); return Object.entries(m).sort((a, b) => b[1] - a[1]); }
+function barsBlock(title, entries, labeler) {
+  const total = entries.reduce((a, e) => a + e[1], 0) || 1;
+  const max = Math.max(1, ...entries.map(e => e[1]));
+  return `<div class="chart"><h3>${title}</h3>${entries.map(([k, n], i) => `<div class="bar-row"><span>${esc(labeler ? labeler(k) : k)}</span>
+    <div class="b"><i style="width:${n / max * 100}%;background:${BAR_COLORS[i % BAR_COLORS.length]}"></i></div><span class="n">${Math.round(n / total * 100)}%</span></div>`).join('')}</div>`;
+}
+const partOfDay = t => { const h = new Date(t).getHours(); return h >= 5 && h < 12 ? 'בוקר' : h >= 12 && h < 17 ? 'צהריים' : h >= 17 && h < 22 ? 'ערב' : 'לילה'; };
+
+function vInsights() {
+  const span = { week: 7, month: 30, all: Infinity }[insTab];
+  const list = S.items.filter(i => Date.now() - i.createdAt < span * DAY);
+  const word = { week: 'השבוע', month: 'החודש', all: 'עד היום' }[insTab];
+  const skipped = list.filter(i => i.status === 'skipped').length;
+  const bought = list.filter(i => i.status === 'bought' || i.status === 'broke').length;
+  const ruled = list.filter(i => ['skipped', 'bought', 'broke'].includes(i.status));
+  const kept = ruled.length ? Math.round(ruled.filter(i => i.status !== 'broke').length / ruled.length * 100) : 0;
+  const saved = savedTotal(list);
+  const demons = count(list.map(i => i.demon).filter(x => x && x !== 'none'));
+  const top = demons[0] && demonOf(demons[0][0]);
+  const feels = count(list.flatMap(i => i.feelings)).slice(0, 5);
+  const rem = REMINDERS[new Date().getDate() % REMINDERS.length];
+  let out = `${header('הדרך שלך', '', false)}
+    <div class="tabs">${[['week', 'שבועי'], ['month', 'חודשי'], ['all', 'כללי']].map(([k, l]) => `<button class="${insTab === k ? 'on' : ''}" data-ins="${k}" aria-pressed="${insTab === k}">${l}</button>`).join('')}</div>`;
+  if (!list.length) return out + `<div class="empty"><div class="fig-wrap">${hero('think')}</div><p>עוד אין רשומות ${word}. אחרי כמה פעמים שעצרת, כאן יופיע הדפוס שלך.</p>
+    <button class="btn" data-act="new">פריט חדש</button></div>`;
+  out += `<div class="bravo"><div class="t"><h3>${skipped ? 'כל הכבוד!' : 'את בדרך'}</h3>
+      <p>${skipped ? `${word} עצרת לפני ${skipped === 1 ? 'רכישה אחת' : skipped + ' רכישות'} וחסכת לעצמך:` : 'כל פעם שתוותרי, הסכום יצטבר כאן:'}</p>
+      <div class="sum">${money(saved)}</div></div>${jarSVG(skipped, false)}</div>
+    <div class="facts">
+      <div class="fact"><b>${skipped}</b><small>רכישות שנמנעו</small></div>
+      <div class="fact"><b>${bought}</b><small>רכישות שבוצעו</small></div>
+      <div class="fact"><b>${kept}%</b><small>עמידה בחוק 24</small></div>
+    </div>`;
+  if (top) out += `<div class="mine"><div><small>זה השדון שלך</small><div class="dn">${esc(top.name)}</div><span class="says">${esc(top.says)}</span></div>
+    <div class="art">${demonArt(top.id)}</div>
+    <div class="todo"><b>מה עושים? </b>${esc(top.todo)}</div></div>`;
+  if (feels.length) out += barsBlock(`הרגשות שהפעילו אותך ${word}`, feels);
+  if (demons.length > 1) out += barsBlock('מי דיבר הכי הרבה', demons, k => demonOf(k).short);
+  out += barsBlock('מתי זה קורה', count(list.map(i => partOfDay(i.createdAt))));
+  out += `<div class="remember"><b>זכרי!</b><span>${esc(rem)}</span></div>`;
+  return out;
+}
+
+function vChallenge() {
+  const first = S.items.length ? Math.min(...S.items.map(i => i.createdAt)) : null;
+  const start = first ? new Date(first) : new Date(); start.setHours(0, 0, 0, 0);
+  const todayIdx = Math.floor((Date.now() - start) / DAY);
+  const counts = count(S.items.map(i => i.demon));
+  const cnt = id => (counts.find(c => c[0] === id) || [0, 0])[1];
+  let days = '';
+  for (let i = 0; i < 14; i++) {
+    const ds = +start + i * DAY, has = S.items.some(it => it.createdAt >= ds && it.createdAt < ds + DAY);
+    days += `<i class="${has ? 'done' : ''}${i === todayIdx ? ' today' : ''}">${i + 1}</i>`;
+  }
+  const dayN = first ? Math.min(14, todayIdx + 1) : 0;
+  return `${header('האתגר', 'יומן השדונים וכלל 24 השעות')}
+    <div class="sheet">
+      <div class="chal-h">${first ? (todayIdx >= 14 ? 'סיימת שבועיים!' : `יום ${dayN} מתוך 14`) : 'השבועיים מתחילים ברשומה הראשונה'}</div>
+      <div class="days" role="img" aria-label="יום ${dayN} מתוך 14">${days}</div>
+      <p style="margin:14px 0 0">${todayIdx >= 14 ? 'עברי על היומן. בטח תגלי דפוס: שעה ביום, רגש מסוים או שדון אחד שחוזר שוב ושוב. זה השדון שלך.' : 'במשך שבועיים, בכל פעם שמתחשק לך לקנות משהו שלא תכננת (לא קניות סופר רגילות), עצרי ורשמי:'}</p>
+      ${todayIdx >= 14 ? `<div class="btn-stack"><button class="btn" data-go2="insights">לתובנות שלי</button></div>` : `<ol class="steps4">
+        <li>מה רציתי לקנות, וכמה זה עולה.</li><li>מתי ואיפה זה קרה.</li><li>איך הרגשתי באותו רגע.</li><li>איזה שדון דיבר.</li></ol>`}
+    </div>
+    <h2 id="demons">חמשת השדונים</h2>
+    ${DEMONS.map(d => `<details class="dm"><summary>${demonArt(d.id)}<span class="t"><b>${esc(d.name)}</b><q>${esc(d.says)}</q>${cnt(d.id) ? `<span class="cnt">ביומן שלך: ${cnt(d.id)}</span>` : ''}</span><span class="pm" aria-hidden="true">+</span></summary>
+      <div class="body"><p><b>איך מזהים?</b> ${esc(d.sign)}</p><p><b>מה עושים?</b> ${esc(d.todo)}</p></div></details>`).join('')}`;
+}
+
+function vTips() {
+  return `${header('טיפים', '', true)}
+    ${DEMONS.map(d => `<div class="tip">${demonArt(d.id)}<div><b>${esc(d.name)}</b><p>${esc(d.todo)}</p></div></div>`).join('')}
+    <h2>זכרי!</h2>
+    ${REMINDERS.map(r => `<div class="remember"><span>${esc(r)}</span></div>`).join('')}`;
+}
+
+function vRule() {
+  return `${header('מה זה חוק 24 השעות?', '', true)}
+    <div class="stage" style="padding-bottom:0">${HILL}<div class="cover-fig">${hero('stand', S.me, { coin: true, arrow: true })}</div></div>
+    <div class="sheet rule"><p>${RULE}</p><cite>לינוי הדר | להיות פשוט עצמאית, פיננסית.</cite></div>`;
+}
+
+function vLook() {
+  return `${header('הדמות שלי', '', true)}${lookPanel()}
+    <div class="btn-stack"><button class="btn" data-act="look-save">שמירה</button></div>`;
+}
+
+function vMore() {
+  const m = S.me;
+  return `${header('עוד', '', false)}
+    <section class="prof">
+      <div class="prof-fig">${m.mode === 'photo' && m.photo ? `<img src="${m.photo}" alt="התמונה שלך">` : figure(m.av, 'hello', { vb: '36 16 132 150' })}</div>
+      <div class="prof-t"><b>${esc(S.name) || 'הדמות שלי'}</b><button class="btn sm" data-go2="look">לשנות דמות או תמונה</button></div>
+    </section>
+    <div class="rows">
+      <label><span class="x">השם שלי</span><input class="field" id="m-name" value="${esc(S.name)}" placeholder="שם"></label>
+      <label><span class="x">החוק חל על קניות מעל</span><span class="shek"><input class="field" id="m-th" type="number" inputmode="numeric" min="0" value="${S.threshold}"></span></label>
+    </div>
+    <div class="rows">
+      <button data-go2="tips"><span class="x">טיפים</span></button>
+      <button data-go2="challenge" data-anchor="demons"><span class="x">חמשת השדונים</span></button>
+      <button data-act="rule"><span class="x">מה זה חוק 24 השעות?</span></button>
+    </div>
+    <div class="rows">
+      <button data-act="export"><span class="x">גיבוי לקובץ</span></button>
+      <button data-act="import"><span class="x">שחזור מגיבוי</span></button>
+      <button data-act="wipe" class="danger"><span class="x">מחיקת כל הנתונים</span></button>
+    </div>
+    <div class="sheet"><b class="display" style="font-size:20px">להתקין כאפליקציה</b>
+      <p class="hint" style="margin:6px 0 0">באייפון: כפתור השיתוף בספארי ואז "הוספה למסך הבית". באנדרואיד: התפריט בכרום ואז "התקנת אפליקציה".</p>
+      <p class="hint" style="margin:10px 0 0">כל המידע נשמר רק בטלפון הזה. אין חשבון ואין שרת, אז כדאי לגבות מדי פעם.</p></div>
+    <p class="hint c">24 | מתוך "להיות פשוט עצמאית, פיננסית." מאת לינוי הדר</p>`;
+}
+
+/* ---------- binding ---------- */
+function bumpLook() { render(true); const f = $('#look-prev .fig'); if (f) f.classList.add('bump'); }
+function bind() {
+  const app = $('#app');
+  app.querySelectorAll('[data-act]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); act(b.dataset.act, b.dataset.id); }));
+  app.querySelectorAll('[data-go2]').forEach(b => b.addEventListener('click', () => {
+    go(b.dataset.go2);
+    if (b.dataset.anchor) setTimeout(() => document.getElementById(b.dataset.anchor)?.scrollIntoView({ behavior: 'smooth' }), 50);
+  }));
+  app.querySelectorAll('[data-focus]').forEach(b => b.addEventListener('click', () => { focusId = b.dataset.focus; render(true); }));
+  app.querySelectorAll('[data-tab]').forEach(b => b.addEventListener('click', () => { listTab = b.dataset.tab; render(true); }));
+  app.querySelectorAll('[data-ins]').forEach(b => b.addEventListener('click', () => { insTab = b.dataset.ins; render(true); }));
+
+  const mn = $('#m-name'), mt = $('#m-th');
+  if (mn) mn.addEventListener('change', () => { S.name = mn.value.trim(); save(); toast('נשמר'); });
+  if (mt) mt.addEventListener('change', () => { const v = parseFloat(mt.value); S.threshold = v >= 0 ? v : 200; save(); toast('נשמר'); });
+
+  if ($('#look-prev') && lookDraft) {
+    app.querySelectorAll('[data-av]').forEach(b => b.addEventListener('click', () => {
+      const k = b.dataset.av; lookDraft.av[k] = (k === 'hair' || k === 'bottom') ? b.dataset.v : +b.dataset.v; bumpLook();
+    }));
+    app.querySelectorAll('[data-avt]').forEach(b => b.addEventListener('click', () => { const k = b.dataset.avt; lookDraft.av[k] = !lookDraft.av[k]; bumpLook(); }));
+    app.querySelectorAll('[data-mode]').forEach(b => b.addEventListener('click', () => { lookDraft.mode = b.dataset.mode; bumpLook(); }));
+  }
+
+  if (view === 'add' && S.onboarded && draft) {
+    [['f-name', 'name'], ['f-price', 'price'], ['f-store', 'store'], ['f-link', 'link']].forEach(([id, k]) => {
+      const el = $('#' + id); if (el) el.addEventListener('input', () => draft[k] = el.value);
+    });
+    app.querySelectorAll('[data-group=place] .chip').forEach(c => c.addEventListener('click', () => {
+      draft.place = draft.place === c.dataset.v ? '' : c.dataset.v;
+      app.querySelectorAll('[data-group=place] .chip').forEach(x => x.classList.toggle('on', x.dataset.v === draft.place));
+    }));
+    app.querySelectorAll('[data-group=feel] .chip').forEach(c => c.addEventListener('click', () => {
+      const v = c.dataset.v, i = draft.feelings.indexOf(v);
+      i < 0 ? draft.feelings.push(v) : draft.feelings.splice(i, 1);
+      c.classList.toggle('on', i < 0); c.setAttribute('aria-pressed', i < 0);
+    }));
+    app.querySelectorAll('[data-demon]').forEach(c => c.addEventListener('click', () => {
+      draft.demon = draft.demon === c.dataset.demon ? null : c.dataset.demon;
+      app.querySelectorAll('[data-demon]').forEach(x => { const on = x.dataset.demon === draft.demon; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on); });
+      const dm = demonOf(draft.demon), box = $('#dsign');
+      if (box) { box.hidden = !dm; box.querySelector('span').textContent = dm ? dm.sign : ''; }
+    }));
+  }
+
+  if (view === 'decide') {
+    const qs = [false, false, false];
+    app.querySelectorAll('.check').forEach(c => c.addEventListener('click', () => {
+      qs[c.dataset.q] = !qs[c.dataset.q]; c.classList.toggle('on', qs[c.dataset.q]); c.setAttribute('aria-pressed', qs[c.dataset.q]);
+      const n = qs.filter(Boolean).length;
+      $('#verdict').textContent = n === 3 ? 'שלוש פעמים כן. קני בשמחה ובלי רגשות אשם.' : '';
+    }));
+  }
+}
+
+$('#photo-in').addEventListener('change', async e => {
+  const f = e.target.files[0]; e.target.value = '';
+  if (!f || !draft) return;
+  try { draft.photo = await shrink(f); render(true); } catch (err) { toast('לא הצלחתי לטעון את התמונה'); }
+});
+$('#me-in').addEventListener('change', async e => {
+  const f = e.target.files[0]; e.target.value = '';
+  if (!f || !lookDraft) return;
+  try { lookDraft.photo = await shrinkSquare(f); lookDraft.mode = 'photo'; bumpLook(); } catch (err) { toast('לא הצלחתי לטעון את התמונה'); }
+});
+$('#imp').addEventListener('change', e => {
+  const f = e.target.files[0]; e.target.value = ''; if (!f) return;
+  f.text().then(t => {
+    const d = JSON.parse(t);
+    if (!d || !Array.isArray(d.items)) throw 0;
+    S = { ...S, ...d, onboarded: true }; S.me = normMe(S.me); save(); toast('שוחזר'); render();
+  }).catch(() => toast('הקובץ לא נראה כמו גיבוי של 24'));
+});
+
+// Photos are shrunk to a small JPEG so many of them fit in the phone's local storage.
+function shrink(file) {
+  return new Promise((res, rej) => {
+    const img = new Image();
+    img.onload = () => {
+      const s = Math.min(1, 360 / Math.max(img.width, img.height));
+      const c = document.createElement('canvas'); c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(img.src); res(c.toDataURL('image/jpeg', 0.72));
+    };
+    img.onerror = rej; img.src = URL.createObjectURL(file);
+  });
+}
+// Profile photo: a centred square (a little above centre on tall photos, where faces usually are), 300px.
+function shrinkSquare(file, size = 300) {
+  return new Promise((res, rej) => {
+    const img = new Image();
+    img.onload = () => {
+      const s = Math.min(img.width, img.height);
+      const sx = (img.width - s) / 2, sy = img.height > img.width ? (img.height - s) * 0.3 : 0;
+      const c = document.createElement('canvas'); c.width = c.height = Math.min(size, s);
+      c.getContext('2d').drawImage(img, sx, sy, s, s, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(img.src); res(c.toDataURL('image/jpeg', 0.8));
+    };
+    img.onerror = rej; img.src = URL.createObjectURL(file);
+  });
+}
+
+function celebrate(kind, title, text) {
+  const el = document.createElement('div');
+  el.className = 'celebrate'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true');
+  const n = S.items.filter(i => i.status === 'skipped').length;
+  const art = kind === 'skip' ? hero('cheer') + jarSVG(n, true) : hero('buy');
+  el.innerHTML = `<div class="cel"><div class="cel-art">${art}</div><h3>${title}</h3><p>${text}</p><button class="btn">סגירה</button></div>`;
+  el.addEventListener('click', e => { if (e.target === el || e.target.closest('button')) el.remove(); });
+  document.body.appendChild(el);
+  el.querySelector('button').focus();
+}
+
+function download(name, type, content) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([content], { type }));
+  a.download = name; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+}
+
+function ics(it) {
+  const f = t => new Date(t).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+  const q = s => s.replace(/[,;\\]/g, m => '\\' + m);
+  const s = endOf(it), txt = q(`עברו 24 שעות. את עדיין רוצה את ${it.name}? יש לו מקום בתקציב? המחיר נראה לך הגיוני?`);
+  return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//app24//HE', 'BEGIN:VEVENT',
+    `UID:${it.id}@app24`, `DTSTAMP:${f(Date.now())}`, `DTSTART:${f(s)}`, `DTEND:${f(s + 15 * 60000)}`,
+    `SUMMARY:${q('24: הגיע הזמן להחליט על ' + it.name)}`, `DESCRIPTION:${txt}`,
+    'BEGIN:VALARM', 'TRIGGER:PT0M', 'ACTION:DISPLAY', `DESCRIPTION:${txt}`, 'END:VALARM',
+    'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+}
+
+function commit(status) {
+  const d = draft;
+  const it = {
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+    name: d.name.trim(), price: parseFloat(d.price), store: d.store.trim(), link: safeUrl(d.link), photo: d.photo,
+    place: d.place, feelings: d.feelings, demon: d.demon, createdAt: Date.now(), status,
+  };
+  if (status !== 'waiting' && status !== 'logged') it.decidedAt = Date.now();
+  S.items.push(it);
+  if (!save()) { S.items.pop(); return null; }
+  draft = null;
+  return it;
+}
+
+function saveLook() {
+  const prev = S.me;
+  S.me = normMe(lookDraft);
+  if (!save()) { S.me = prev; return false; }
+  lookDraft = null; return true;
+}
+
+function act(a, id) {
+  const it = id && S.items.find(i => i.id === id);
+  switch (a) {
+    case 'setup': param = 'setup'; render(); window.scrollTo(0, 0); break;
+    case 'onb-back': param = param === 'look' ? 'setup' : null; render(); window.scrollTo(0, 0); break;
+    case 'onb-next': {
+      const v = parseFloat($('#o-th').value);
+      S.name = $('#o-name').value.trim(); S.threshold = v >= 0 ? v : 200; save();
+      param = 'look'; lookDraft = null; render(); window.scrollTo(0, 0); break;
+    }
+    case 'start':
+      if (lookDraft && !saveLook()) return;
+      S.onboarded = true; save(); go('home'); break;
+    case 'rule': go('rule'); break;
+    case 'back':
+      if (view === 'add' && draft && draft.step > 1) { draft.step--; render(); window.scrollTo(0, 0); }
+      else { draft = view === 'add' ? null : draft; go({ tips: 'more', rule: 'more', look: 'more' }[view] || 'home'); }
+      break;
+    case 'new': draft = null; go('add'); break;
+    case 'photo': $('#photo-in').click(); break;
+    case 'me-photo': $('#me-in').click(); break;
+    case 'me-photo-del': if (lookDraft) { lookDraft.photo = ''; bumpLook(); } break;
+    case 'av-rand': {
+      if (!lookDraft) return;
+      const r = n => Math.floor(Math.random() * n);
+      Object.assign(lookDraft.av, { skin: r(SKINS.length), hair: HAIRS[r(HAIRS.length)][0], hairColor: r(HAIRC.length), top: r(TOPS.length),
+        bottom: BOTTOMS[r(2)][0], bottomColor: r(BOTC.length), glasses: Math.random() < .35, earrings: Math.random() < .5, bag: Math.random() < .35 });
+      lookDraft.mode = 'avatar'; bumpLook(); break;
+    }
+    case 'look-save': if (saveLook()) { toast('נשמר'); go('more'); } break;
+    case 'next':
+      if (draft.step === 1) {
+        if (!draft.name.trim()) { toast('מה רצית לקנות?'); $('#f-name').focus(); return; }
+        if (!(parseFloat(draft.price) >= 0)) { toast('כמה זה עולה?'); $('#f-price').focus(); return; }
+        if (draft.link.trim() && !safeUrl(draft.link)) { toast('הקישור לא נראה תקין'); $('#f-link').focus(); return; }
+      }
+      draft.step++; render(); window.scrollTo(0, 0); break;
+    case 'save': {
+      const under = parseFloat(draft.price) < S.threshold;
+      const n = commit(under ? 'logged' : 'waiting'); if (!n) return;
+      if (under) { toast('נרשם ביומן השדונים'); listTab = 'all'; go('list'); }
+      else { focusId = n.id; toast('הספירה התחילה. נתראה בעוד 24 שעות'); go('home'); }
+      break;
+    }
+    case 'nope': {
+      const n = commit('skipped'); if (!n) return;
+      go('home'); celebrate('skip', 'השדון ניסה ולא הצליח.', `${money(n.price)} נשארו אצלך. סך הכול: ${money(savedTotal())}`);
+      break;
+    }
+    case 'decide': go('decide', id); break;
+    case 'skip':
+      if (!it) return;
+      it.status = 'skipped'; it.decidedAt = Date.now(); save(); go('home');
+      celebrate('skip', 'השדון ניסה ולא הצליח.', `${money(it.price)} נשארו אצלך. סך הכול: ${money(savedTotal())}`);
+      break;
+    case 'buy':
+      if (!it) return;
+      it.status = 'bought'; it.decidedAt = Date.now(); save(); go('home');
+      celebrate('buy', 'קני בשמחה ובלי רגשות אשם.', 'חיכית יום, בדקת, והחלטת. זו בחירה מודעת.');
+      break;
+    case 'broke':
+      if (!it || !confirm('לסמן שקנית לפני שעברו 24 שעות? זה בסדר, זה נכנס ליומן כדי שתראי את הדפוס.')) return;
+      it.status = 'broke'; it.decidedAt = Date.now(); save(); render(true);
+      toast('נרשם. בפעם הבאה, רק יום אחד');
+      break;
+    case 'ics': if (it) download('24-' + it.id + '.ics', 'text/calendar', ics(it)); break;
+    case 'del':
+      if (it && confirm(`למחוק את "${it.name}" מהיומן?`)) { S.items = S.items.filter(i => i !== it); save(); render(true); }
+      break;
+    case 'export': download('24-backup-' + new Date().toISOString().slice(0, 10) + '.json', 'application/json', JSON.stringify(S)); break;
+    case 'import': $('#imp').click(); break;
+    case 'wipe':
+      if (confirm('למחוק את כל הנתונים מהטלפון? אי אפשר לשחזר בלי גיבוי.')) {
+        S = { items: [], threshold: S.threshold, name: S.name, onboarded: true, me: S.me }; save(); toast('נמחק'); render();
+      }
+      break;
+  }
+}
+
+/* ---------- live countdown ---------- */
+let wasReady = new Set(S.items.filter(isReady).map(i => i.id));
+function tick() {
+  document.querySelectorAll('[data-ring]').forEach(el => {
+    const it = S.items.find(i => i.id === el.dataset.ring); if (!it) return;
+    const rem = Math.max(0, endOf(it) - Date.now()), frac = rem ? rem / DAY : 1;
+    const bar = el.querySelector('.bar'), C = parseFloat(bar.getAttribute('stroke-dasharray'));
+    bar.style.strokeDashoffset = C * (1 - frac);
+    const ang = (-90 + 360 * frac) * Math.PI / 180; // knob sits at the end of the remaining arc
+    const k = el.querySelector('.knob'); k.setAttribute('cx', 110 + 100 * Math.cos(ang)); k.setAttribute('cy', 110 + 100 * Math.sin(ang));
+    const dg = el.querySelectorAll('[data-dig] b'); if (dg.length) hms(rem).split(':').forEach((v, i) => dg[i].textContent = v);
+  });
+  document.querySelectorAll('[data-left]').forEach(el => {
+    const it = S.items.find(i => i.id === el.dataset.left); if (it) el.textContent = isReady(it) ? 'להחלטה' : hms(endOf(it) - Date.now());
+  });
+  const nowReady = S.items.filter(isReady).map(i => i.id);
+  if (nowReady.some(id => !wasReady.has(id))) { wasReady = new Set(nowReady); if (['home', 'list'].includes(view) && S.onboarded) render(true); }
+}
+setInterval(tick, 1000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden && S.onboarded && !['add', 'look', 'more'].includes(view)) render(true); });
+
+render();
+if ('serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register('sw.js').catch(() => {});
+</script>
+</body>
+</html>
