@@ -1199,6 +1199,25 @@ function shrinkSquare(file, size = 300) {
   });
 }
 
+/* Right after an item goes into the cart, offer a phone reminder. The phone's own calendar
+   raises the alert when the 24 hours end, even with the app closed, and nothing leaves the phone. */
+function askReminder(it) {
+  const el = document.createElement('div');
+  el.className = 'celebrate'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true');
+  el.innerHTML = `<div class="cel"><div class="cel-art">${hero('wait')}</div><h3>הספירה התחילה</h3>
+    <p>רוצה שהטלפון יזכיר לך כשיעברו 24 שעות?</p>
+    <div class="btn-stack" style="margin-top:0"><button class="btn" data-r="yes">כן, תזכירי לי</button><button class="btn ghost" data-r="no">לא עכשיו</button></div></div>`;
+  el.addEventListener('click', e => {
+    const b = e.target.closest('[data-r]');
+    if (!b && e.target !== el) return;
+    if (b && b.dataset.r === 'yes') download('24-' + it.id + '.ics', 'text/calendar', ics(it));
+    else toast('הספירה התחילה. נתראה בעוד 24 שעות');
+    el.remove();
+  });
+  document.body.appendChild(el);
+  el.querySelector('button').focus();
+}
+
 function celebrate(kind, title, text) {
   const el = document.createElement('div');
   el.className = 'celebrate'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true');
@@ -1290,7 +1309,7 @@ function act(a, id) {
       const under = parseFloat(draft.price) < S.threshold;
       const n = commit(under ? 'logged' : 'waiting'); if (!n) return;
       if (under) { toast('נרשם ביומן השדונים'); listTab = 'all'; go('list'); }
-      else { focusId = n.id; toast('הספירה התחילה. נתראה בעוד 24 שעות'); go('home'); }
+      else { focusId = n.id; go('home'); askReminder(n); }
       break;
     }
     case 'nope': {
