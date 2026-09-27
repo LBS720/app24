@@ -192,6 +192,13 @@ details.extra .pair{margin-top:10px}
 .cap p{margin:2px 0 0;color:var(--ink);font-size:16px}
 .cover-fig{width:min(56vw,210px);margin:4px auto 0}
 .stage-p{text-align:center;margin:8px 0 2px;font-size:17px}
+.how{list-style:none;margin:8px 0 2px;padding:0;display:grid;gap:7px}
+.how li{display:flex;gap:12px;align-items:center;background:var(--sheet);border:2px solid var(--ink);border-radius:var(--r);padding:7px 12px}
+.how .hn{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-size:19px;background:#F2C14E;border:2px solid var(--ink);box-shadow:0 3px 0 #B9832A}
+.how b{font-family:var(--display);font-weight:400;font-size:19px;line-height:1.2}
+.how p{margin:0;font-size:16px;line-height:1.35}
+.rule-d p{margin:4px 0 6px}
+.rule-d cite{font-style:normal;font-size:14px;color:var(--ink-2)}
 .queue{display:flex;gap:16px;overflow-x:auto;padding:10px 18px 16px;margin:0 -16px;scrollbar-width:none}
 .queue::-webkit-scrollbar{display:none}
 .queue .pol{flex:none;width:138px;text-align:right}
@@ -824,10 +831,13 @@ function vSplash() {
   </div>`;
   if (param === 'setup') return `<div class="onb">
     <button class="back" data-act="onb-back">חזרה</button>
-    <label class="lbl" for="o-name" style="margin-top:8px">איך קוראים לך?</label>
+    <h1>איך זה עובד?</h1>
+    ${howItWorks()}
+    <label class="lbl" for="o-name">איך קוראים לך?</label>
     <input class="field" id="o-name" placeholder="השם שלך" value="${esc(S.name)}" autocomplete="given-name">
     <label class="lbl" for="o-th">החוק חל אצלי על קניות מעל</label>
     <div class="shek"><input class="field" id="o-th" type="number" inputmode="numeric" min="0" value="${S.threshold}"></div>
+    <p class="hint" style="margin-top:6px">מתחת לסכום הזה לא מחכים, רק רושמים ביומן.</p>
     <div class="btn-stack"><button class="btn" data-act="start">יאללה, מתחילות</button></div>
     <p class="foot hint c">הכול נשמר רק בטלפון שלך. בלי חשבון, בלי שרת.</p>
   </div>`;
@@ -838,6 +848,16 @@ function vSplash() {
     ${lookPanel()}
     <div class="btn-stack"><button class="btn" data-act="start">יאללה, מתחילות</button></div>
   </div>`;
+}
+
+/* The rule in three glanceable steps, built on the motto; the author's full text opens on tap. */
+function howItWorks(full = true) {
+  const step = (n, t, p) => `<li><span class="hn" aria-hidden="true">${n}</span><div><b>${t}</b><p>${p}</p></div></li>`;
+  return `<ol class="how">
+    ${step(1, 'עוצרות', 'רוצה לקנות משהו שלא תכננת? מכניסות אותו לכאן.')}
+    ${step(2, 'מחכות', '24 שעות. הטלפון יזכיר לך.')}
+    ${step(3, 'מחליטות נכון', 'עדיין רוצה? קני בשמחה. שכחת? השדון ניסה ולא הצליח.')}
+  </ol>${full ? `<details class="extra rule-d"><summary>החוק המלא</summary><p>${RULE}</p><cite>לינוי הדר | להיות פשוט עצמאית, פיננסית.</cite></details>` : ''}`;
 }
 
 function vHome() {
@@ -876,7 +896,8 @@ function vHome() {
       <div class="cover-fig">${hero('stand', S.me, { coin: true, arrow: true })}</div>
     </section>
     <p class="stage-p">מתחשק לך לקנות משהו שלא תכננת?<br>עוצרות כאן קודם.</p>
-    <div class="btn-stack" style="margin-top:12px"><button class="btn" data-act="new">אני רוצה לקנות עכשיו</button></div>`;
+    <div class="btn-stack" style="margin-top:12px"><button class="btn" data-act="new">אני רוצה לקנות עכשיו</button></div>
+    ${S.items.length ? '' : `<h2>איך זה עובד?</h2>${howItWorks(false)}`}`;
   }
   const queue = w.length > 1 ? `<h2>בעגלה, מחכות יום (${w.length})</h2><div class="queue">${w.map(q => `
     <button class="pol${q === it ? ' on' : ''}" data-focus="${q.id}" aria-pressed="${q === it}"><div class="ph">${photo(q)}</div><b>${esc(q.name)}</b>
