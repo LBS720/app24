@@ -1435,9 +1435,11 @@ const AD_UNITS = {
   ios: 'ca-app-pub-3940256099942544/2435281174',
 };
 const ADS_TESTING = true;
+// Version 1.0 ships without ads; flip this on in the update that adds the real AdMob ids.
+const ADS_ENABLED = false;
 let adsStarted = false;
 async function startAds() {
-  if (!Ads || adsStarted || !S.onboarded) return;
+  if (!ADS_ENABLED || !Ads || adsStarted || !S.onboarded) return;
   adsStarted = true;
   try {
     await Ads.initialize({ initializeForTesting: ADS_TESTING });
