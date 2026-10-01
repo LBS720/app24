@@ -1,0 +1,13 @@
+{
+  "appId": "il.co.hafinancit.app24",
+  "appName": "24",
+  "webDir": "www",
+  "plugins": {
+    "LocalNotifications": {
+      "iconColor": "#C8375A"
+    },
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  }
+}
