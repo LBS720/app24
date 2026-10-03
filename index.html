@@ -1114,6 +1114,7 @@ function vMore() {
       <button data-go2="tips"><span class="x">טיפים</span></button>
       <button data-go2="challenge" data-anchor="demons"><span class="x">חמשת השדונים</span></button>
       <button data-act="rule"><span class="x">מה זה חוק 24 השעות?</span></button>
+      <button data-act="privacy"><span class="x">מדיניות פרטיות</span></button>
     </div>
     <div class="rows">
       <button data-act="export"><span class="x">גיבוי לקובץ</span></button>
@@ -1313,6 +1314,7 @@ function act(a, id) {
       if (lookDraft && !saveLook()) return;
       S.onboarded = true; save(); go('home'); startAds(); break;
     case 'rule': go('rule'); break;
+    case 'privacy': window.open('https://24.hafinancit.co.il/privacy.html', '_blank', 'noopener'); break;
     case 'back':
       if (view === 'add' && draft && draft.step > 1) { draft.step--; render(); window.scrollTo(0, 0); }
       else { draft = view === 'add' ? null : draft; go({ tips: 'more', rule: 'more', look: 'more' }[view] || 'home'); }
