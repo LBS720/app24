@@ -4,7 +4,10 @@ import puppeteer from 'puppeteer-core';
 import { mkdirSync } from 'fs';
 
 const APP = 'http://localhost:4324/index.html';
-const OUT = new URL('./shots/', import.meta.url).pathname;
+const PLAY = process.argv[2] === 'play';
+// App Store: 428x926 @3 = 1284x2778. Google Play needs at most 2:1, so 360x720 @3 = 1080x2160.
+const VIEW = PLAY ? { width: 360, height: 720 } : { width: 428, height: 926 };
+const OUT = new URL(PLAY ? './play/' : './shots/', import.meta.url).pathname;
 mkdirSync(OUT, { recursive: true });
 
 const H = 3600e3, now = Date.now();
@@ -35,7 +38,7 @@ const browser = await puppeteer.launch({
 });
 for (const s of shots) {
   const page = await browser.newPage();
-  await page.setViewport({ width: 428, height: 926, deviceScaleFactor: 3, isMobile: true, hasTouch: true });
+  await page.setViewport({ ...VIEW, deviceScaleFactor: 3, isMobile: true, hasTouch: true });
   await page.goto(APP, { waitUntil: 'networkidle0' });
   await page.evaluate(d => { localStorage.clear(); if (d) localStorage.setItem('app24.v1', JSON.stringify(d)); }, s.data);
   await page.reload({ waitUntil: 'networkidle0' });
