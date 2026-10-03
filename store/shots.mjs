@@ -4,10 +4,17 @@ import puppeteer from 'puppeteer-core';
 import { mkdirSync } from 'fs';
 
 const APP = 'http://localhost:4324/index.html';
-const PLAY = process.argv[2] === 'play';
-// App Store: 428x926 @3 = 1284x2778. Google Play needs at most 2:1, so 360x720 @3 = 1080x2160.
-const VIEW = PLAY ? { width: 360, height: 720 } : { width: 428, height: 926 };
-const OUT = new URL(PLAY ? './play/' : './shots/', import.meta.url).pathname;
+// Sizes: App Store 428x926 @3 = 1284x2778; Play phone 360x720 @3 = 1080x2160 (max 2:1);
+// Play 7" tablet 540x960 @2 = 1080x1920; Play 10" tablet 720x1280 @2 = 1440x2560 (both 9:16).
+const MODES = {
+  ios: { view: { width: 428, height: 926 }, dsf: 3, out: './shots/' },
+  play: { view: { width: 360, height: 720 }, dsf: 3, out: './play/' },
+  tab7: { view: { width: 540, height: 960 }, dsf: 2, out: './play/tablet-7/' },
+  tab10: { view: { width: 720, height: 1280 }, dsf: 2, out: './play/tablet-10/' },
+};
+const M = MODES[process.argv[2] || 'ios'];
+const VIEW = M.view;
+const OUT = new URL(M.out, import.meta.url).pathname;
 mkdirSync(OUT, { recursive: true });
 
 const H = 3600e3, now = Date.now();
@@ -38,7 +45,7 @@ const browser = await puppeteer.launch({
 });
 for (const s of shots) {
   const page = await browser.newPage();
-  await page.setViewport({ ...VIEW, deviceScaleFactor: 3, isMobile: true, hasTouch: true });
+  await page.setViewport({ ...VIEW, deviceScaleFactor: M.dsf, isMobile: true, hasTouch: true });
   await page.goto(APP, { waitUntil: 'networkidle0' });
   await page.evaluate(d => { localStorage.clear(); if (d) localStorage.setItem('app24.v1', JSON.stringify(d)); }, s.data);
   await page.reload({ waitUntil: 'networkidle0' });
