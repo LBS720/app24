@@ -1,4 +1,4 @@
-const CACHE = 'app24-v9';
+const CACHE = 'app24-v10';
 const SHELL = ['./', 'index.html', 'manifest.json', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
