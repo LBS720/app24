@@ -1404,10 +1404,15 @@ document.addEventListener('visibilitychange', () => { if (!document.hidden && S.
 
 /* ---------- store app only (Google Play / App Store) ----------
    On the website none of this runs: there is no Capacitor bridge, so IS_NATIVE is false. */
+// Everything here is guarded: if any native piece is missing, the app must still draw its screens.
 const CAP = window.Capacitor;
-const IS_NATIVE = !!(CAP && CAP.isNativePlatform && CAP.isNativePlatform());
-const Notif = IS_NATIVE ? CAP.registerPlugin('LocalNotifications') : null;
-const Ads = IS_NATIVE ? CAP.registerPlugin('AdMob') : null;
+let IS_NATIVE = false, Notif = null, Ads = null;
+try {
+  IS_NATIVE = !!(CAP && CAP.isNativePlatform && CAP.isNativePlatform());
+  // registerPlugin comes from @capacitor/core (capacitor.js, added to the app build); the bare native bridge lacks it.
+  const reg = (CAP && CAP.registerPlugin) || (window.capacitorExports && window.capacitorExports.registerPlugin);
+  if (IS_NATIVE && reg) { Notif = reg('LocalNotifications'); Ads = reg('AdMob'); }
+} catch (e) { Notif = null; Ads = null; }
 
 // The phone itself raises this alert when the 24 hours end, even with the app closed. Nothing leaves the phone.
 const nid = id => { let h = 7; for (const c of String(id)) h = (h * 31 + c.charCodeAt(0)) | 0; return (Math.abs(h) % 2000000000) + 1; };
@@ -1425,10 +1430,12 @@ async function remind(it) {
   } catch (e) { return false; }
 }
 function unremind(it) { if (Notif && it) Notif.cancel({ notifications: [{ id: nid(it.id) }] }).catch(() => {}); }
-if (Notif) Notif.addListener('localNotificationActionPerformed', a => {
-  const id = a && a.notification && a.notification.extra && a.notification.extra.id;
-  if (id && S.items.some(i => i.id === id && i.status === 'waiting')) go('decide', id);
-});
+try {
+  if (Notif) Promise.resolve(Notif.addListener('localNotificationActionPerformed', a => {
+    const id = a && a.notification && a.notification.extra && a.notification.extra.id;
+    if (id && S.items.some(i => i.id === id && i.status === 'waiting')) go('decide', id);
+  })).catch(() => {});
+} catch (e) {}
 
 /* Ad banner pinned under the nav. Google's official test ids are used until the real AdMob
    ad unit ids are pasted in below; test ads never pay, real ids must not be clicked while testing. */
@@ -1458,7 +1465,7 @@ async function startAds() {
 }
 
 render();
-startAds();
+try { startAds(); } catch (e) {}
 if (!IS_NATIVE && 'serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register('sw.js').catch(() => {});
 </script>
 </body>
