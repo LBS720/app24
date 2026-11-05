@@ -11,10 +11,14 @@ name: iOS build and upload
 
 on:
   workflow_dispatch:
+    inputs:
+      runner:
+        description: GitHub runner (try macos-15-intel when Apple silicon runners are stuck in the queue)
+        default: macos-latest
 
 jobs:
   ios:
-    runs-on: macos-latest
+    runs-on: ${{ inputs.runner || 'macos-latest' }}
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
@@ -29,6 +33,12 @@ jobs:
           npm run build
           npx cap sync ios
 
+      # Apple rejects builds made with an SDK older than iOS 26. Not every runner defaults to Xcode 26.
+      - name: Use the newest Xcode
+        run: |
+          ls -d /Applications/Xcode_*.app
+          newest=$(ls -d /Applications/Xcode_*.app | grep -E 'Xcode_[0-9.]+\.app$' | sort -t_ -k2 -V | tail -1)
+          sudo xcode-select -s "$newest"
       - name: Show Xcode
         run: xcodebuild -version
 
