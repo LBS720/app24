@@ -45,7 +45,7 @@ const browser = await puppeteer.launch({
 });
 for (const s of shots) {
   const page = await browser.newPage();
-  await page.setViewport({ ...VIEW, deviceScaleFactor: M.dsf, isMobile: true, hasTouch: true });
+  await page.setViewport({ ...VIEW, deviceScaleFactor: M.dsf, isMobile: true, hasTouch: true }); await page.setBypassServiceWorker(true);
   await page.goto(APP, { waitUntil: 'networkidle0' });
   await page.evaluate(d => { localStorage.clear(); if (d) localStorage.setItem('app24.v1', JSON.stringify(d)); }, s.data);
   await page.reload({ waitUntil: 'networkidle0' });
