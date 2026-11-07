@@ -8,6 +8,7 @@ const APP = 'http://localhost:4324/index.html';
 // Play 7" tablet 540x960 @2 = 1080x1920; Play 10" tablet 720x1280 @2 = 1440x2560 (both 9:16).
 const MODES = {
   ios: { view: { width: 428, height: 926 }, dsf: 3, out: './shots/' },
+  ios61: { view: { width: 393, height: 852 }, dsf: 3, out: './shots-6.1/' },
   play: { view: { width: 360, height: 720 }, dsf: 3, out: './play/' },
   tab7: { view: { width: 540, height: 960 }, dsf: 2, out: './play/tablet-7/' },
   tab10: { view: { width: 720, height: 1280 }, dsf: 2, out: './play/tablet-10/' },
