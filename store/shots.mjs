@@ -34,7 +34,7 @@ const demo = {
 const shots = [
   { name: '01-splash', data: null, wait: 2300 },
   { name: '02-home', data: demo, run: "focusId='w1'; go('home');" },
-  { name: '03-add', data: demo, run: "draft=null; go('add'); draft.name='נעלי סניקרס'; draft.price='349'; draft.feelings=['עייפה']; draft.demon='temp'; draft.step=2; render();" },
+  { name: '03-add', data: demo, run: "draft=null; go('add'); draft.name='נעלי סניקרס'; draft.price='349'; draft.feelings=['עייפה']; draft.demon='temp'; draft.step=2; render(); if (innerHeight < 800) scrollTo(0, document.documentElement.scrollHeight);" },
   { name: '04-decide', data: demo, run: "go('decide','w2');" },
   { name: '05-insights', data: demo, run: "insTab='week'; go('insights');" },
   { name: '06-skip', data: demo, run: "go('home'); celebrate('skip','השדון ניסה ולא הצליח.', money(380)+' נשארו אצלך. סך הכול: '+money(1390));", wait: 1800 },
